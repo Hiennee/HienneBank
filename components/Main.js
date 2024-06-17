@@ -18,6 +18,7 @@ import ChangeAccountNumberForm from './ChangeAccountNumberForm';
 import ChangePhoneNumberForm from './ChangePhoneNumberForm';
 import ChangeThemeForm from './ChangeThemeForm';
 import Contact from './Contact';
+import { useEffect } from 'react';
 
 function LogInSignUpNavigatorScreen()
 {
@@ -59,13 +60,17 @@ function BridgeNavigatorScreen(prop)
 
 function SettingsNavigatorScreen(prop)
 {
+    var initDate = new Date()
+    useEffect(() => {
+        var renderedSuccessfullyTime = new Date();
+        console.log("Delta time from SettingsNav: ", initDate - renderedSuccessfullyTime);
+    })
     //console.log(prop)
     const SettingsNav = createStackNavigator();
     return (
         <SettingsNav.Navigator
-    
         initialRouteName="SettingsScreen"
-        screenOptions={{headerShown: false, animation: "none"}}>
+        screenOptions={{ headerShown: false }}>
             <SettingsNav.Screen name="SettingsScreen">
                 {(props) => <Settings {...props} username={prop.username} phonenum={prop.phonenum}
                 banknum={prop.banknum} password={prop.password}/>}

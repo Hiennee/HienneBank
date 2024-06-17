@@ -9,13 +9,6 @@ var app = express()
 app.use(cors())
 app.use(express.json())
 
-var server = https.createServer({
-    cert: fs.readFileSync("./CA/hihienne.com+4.pem"),
-    key: fs.readFileSync("./CA/hihienne.com+4-key.pem"),
-    requestCert: true,
-    rejectUnauthorized: false,
-}, app)
-
 var db = mysql.createConnection({
     host: "localhost",
     port: 3306,
@@ -318,12 +311,3 @@ app.listen(8080, async () => {
     // })
     (await db).connect().then(() => {console.log("Connected to the database!")})
 })
-
-// server.listen(8080, async () => {
-//     console.log("Server is online using HTTPS");
-//     // var a = await db
-//     // a.connect().then(() => {
-//     //     console.log("asd")
-//     // })
-//     (await db).connect().then(() => {console.log("Connected to the database!")})
-// })
