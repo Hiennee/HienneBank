@@ -27,8 +27,8 @@ export default function Login(props)
     const AlertLoginSuccess = (json) =>
     {
         //console.log(json.money);
-        Alert.alert("THÔNG BÁO", "Đăng nhập thành công với tài khoản " + username,
-        [{ text: "OK", onPress: () => {replace("Bridge", { username: username.toUpperCase(), money: json.money, 
+        Alert.alert("THÔNG BÁO", "Đăng nhập thành công với tài khoản " + username.trim().toUpperCase(),
+        [{ text: "OK", onPress: () => {replace("Bridge", { username: username.trim().toUpperCase(), money: json.money, 
                 banknum: json.banknum, phonenum: json.phonenum, password: password, /*color: color*/ })} }
         ], {cancelable: true} )
     }
@@ -43,7 +43,7 @@ export default function Login(props)
                 certs: ["certificate"],
             },
             body: JSON.stringify({
-                username: username.trim(),
+                username: username.trim().toUpperCase(),
                 password: password
             })
         }).then(async (respond) => {

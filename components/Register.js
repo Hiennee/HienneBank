@@ -47,7 +47,7 @@ export default function Register(props)
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                username: username.trim(),
+                username: username.trim().toUpperCase(),
                 banknum: banknum,
                 phonenum: phonenum,
                 password: password

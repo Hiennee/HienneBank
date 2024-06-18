@@ -7,7 +7,9 @@ import { AntDesign } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import replaceDate from '../shared/DateStringReplacer';
-import CurrencyFormatter from "../shared/CurrencyFormatter";
+import Format from "../shared/CurrencyFormatter";
+
+import * as Notifications from "expo-notifications";
 
 export default function WithdrawMoney(props) {
     const { navigate } = props.navigation
@@ -16,8 +18,9 @@ export default function WithdrawMoney(props) {
     var [moneyDestination, setMoneyDestination] = useState("");
     
     var [showSuccessModal, setShowSuccessModal] = useState(false);
-    var [date, setDate] = useState("");
-
+    //var [date, setDate] = useState("");
+    var date = new Date().toString();
+    function setDate(str) { date = str; }
     async function Notify()
     {
         const req = await Notifications.requestPermissionsAsync();
@@ -28,7 +31,7 @@ export default function WithdrawMoney(props) {
             Notifications.scheduleNotificationAsync({
                 content: {
                     title: "HienneBank THÔNG BÁO BIẾN ĐỘNG SỐ DƯ",
-                    body: `Tài khoản ${props.route.params.banknum} - ${Format(moneyToAdd)} vào lúc ${date} đến ${moneyDestination}`,
+                    body: `Tài khoản ${props.route.params.banknum} - ${Format(moneyToWithdraw)} vào lúc ${date} đến ${moneyDestination}`,
                     sound: true,
                     vibrate: true,
                 },
@@ -43,7 +46,7 @@ export default function WithdrawMoney(props) {
     //     ], {cancelable: true})
     // }
     const AlertNotEnoughMoney = () => {
-        Alert.alert("Thông báo", "Không đủ tiền để rút\nTài khoản: " + CurrencyFormatter(props.route.params.money) + "\nSố tiền rút: " + CurrencyFormatter(moneyToWithdraw),
+        Alert.alert("Thông báo", "Không đủ tiền để rút\nTài khoản: " + Format(props.route.params.money) + "\nSố tiền rút: " + Format(moneyToWithdraw),
         [
             {text: "OK", onPress: () => {}}
         ], {cancelable: true})
@@ -96,7 +99,7 @@ export default function WithdrawMoney(props) {
                 </View>
                 <View style={{ flexDirection: "row", justifyContent: "space-between", marginVertical: 10 }}>
                     <Text style={{ fontWeight: "bold", fontSize: 15 }}>Số dư</Text>
-                    <Text style={{ color: "green"}}>{CurrencyFormatter(props.route.params.money) }</Text>
+                    <Text style={{ color: "green"}}>{Format(props.route.params.money) }</Text>
                 </View>
             </Card>
             <View style={{ flexDirection: "column", width: "100%", marginTop: 100 }}>
@@ -117,7 +120,7 @@ export default function WithdrawMoney(props) {
             <View style={{ flexDirection: "row", marginTop: 50, alignSelf: "center" }}>
                 <Button title="NẠP" disabled={moneyToWithdraw == "" || moneyDestination == ""} onPress={() => {
                     //console.log("date", replaceDate(new Date().toString().replace(" GMT+0700", "")))
-                    setDate(replaceDate(new Date().toString().replace(" GMT+0700", "")));
+                    setDate(replaceDate(new Date().toString()));
                     onSubmitWithdrawMoney(props.route.params.username, moneyDestination, moneyToWithdraw, date);
                     Notify();
                 }} />
@@ -145,8 +148,8 @@ function WithdrawMoneySuccessModal(props)
                 <Card.Title style={{fontSize: 35}}>HienneBank</Card.Title>
                 <Card.Title style={{fontSize: 20}}>Rút tiền thành công</Card.Title>
                 <AntDesign style={{alignSelf: "center", marginBottom: 10}}name="checkcircle" size={40} color="green" />
-                <Card.Title style={{fontSize: 25, color: "green"}}>{CurrencyFormatter(props.moneyToWithdraw)}</Card.Title>
-                <Card.Title>{props.date}</Card.Title>
+                <Card.Title style={{fontSize: 25, color: "green"}}>{Format(props.moneyToWithdraw)}</Card.Title>
+                <Card.Title>{replaceDate(props.date)}</Card.Title>
                 <Card.Divider />
                 <View style={{flexDirection: "row", justifyContent: "space-between", marginVertical: 10}}>
                     <Text>Tên người rút</Text>

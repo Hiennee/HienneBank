@@ -6,7 +6,9 @@ import { AntDesign } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import replaceDate from '../shared/DateStringReplacer';
-import CurrencyFormatter from "../shared/CurrencyFormatter";
+import Format from "../shared/CurrencyFormatter";
+
+import * as Notifications from "expo-notifications"
 
 export default function TransferMoney(props) {
     const { navigate } = props.navigation
@@ -17,7 +19,9 @@ export default function TransferMoney(props) {
     var [description, setDescription] = useState("");
     var [showSuccessModal, setShowSuccessModal] = useState(false);
 
-    var [date, setDate] = useState("");
+    //var [date, setDate] = useState("");
+    var date = new Date().toString();
+    function setDate(str) { date = str; }
     
     // const AlertTransferMoneySuccess = () => {
     //     Alert.alert("Thông báo", "Đã chuyển thành công " + moneyToTransfer + " từ " + props.route.params.username + " đến " + moneyDestination,
@@ -37,7 +41,7 @@ export default function TransferMoney(props) {
             Notifications.scheduleNotificationAsync({
                 content: {
                     title: "HienneBank THÔNG BÁO BIẾN ĐỘNG SỐ DƯ",
-                    body: `Tài khoản ${props.route.params.banknum} - ${Format(moneyToAdd)} vào lúc ${date} đến ${moneyDestination}`,
+                    body: `Tài khoản ${props.route.params.banknum} - ${Format(moneyToTransfer)} vào lúc ${date} đến ${moneyDestination}`,
                     sound: true,
                     vibrate: true,
                 },
@@ -47,7 +51,7 @@ export default function TransferMoney(props) {
     }
 
     const AlertNotEnoughMoney = () => {
-        Alert.alert("Thông báo", "Không đủ tiền để chuyển\nTài khoản: " + CurrencyFormatter(props.route.params.money) + "\nSố tiền chuyển: " + CurrencyFormatter(moneyToTransfer),
+        Alert.alert("Thông báo", "Không đủ tiền để chuyển\nTài khoản: " + Format(props.route.params.money) + "\nSố tiền chuyển: " + Format(moneyToTransfer),
         [
             {text: "OK", onPress: () => {}}
         ], {cancelable: true})
@@ -55,25 +59,27 @@ export default function TransferMoney(props) {
 
     const AlertInvalidDestination = () => {
         Alert.alert("Thông báo", "Tài khoản " + moneyDestination + " không tồn tại", [
-            {text: "OK", onPress: () => {}}
+            { text: "OK", onPress: () => {} }
         ], {cancelable: true})
     }
 
     const AlertSameDestination = () => {
         Alert.alert("Thông báo", "Không thể chuyển và nhận cùng một tài khoản", [
-            {text: "OK", onPress: () => {}}
+            { text: "OK", onPress: () => {} }
         ], {cancelable: true})
     }
 
     const AlertTransferMoneyFailed = () => {
         Alert.alert("Thông báo", "Xảy ra lỗi khi chuyển tiền, vui lòng thử lại", [
-            {text: "OK", onPress: () => {}}
+            { text: "OK", onPress: () => {} }
         ], {cancelable: true})
     }
 
     function onSubmitTransferMoney(username, destination, money, date, description)
     {
-        if (destination.trim() == username.trim()) {
+        var destination = destination.trim().toUpperCase();
+        var username = username.trim().toUpperCase();
+        if (destination == username) {
             AlertSameDestination();
             return;
         }
@@ -88,7 +94,7 @@ export default function TransferMoney(props) {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                username: username.trim(),
+                username: username,
                 source: username,
                 source_banknum: props.route.params.banknum,
                 destination: destination,
@@ -99,7 +105,7 @@ export default function TransferMoney(props) {
             })
         })
         .then(async (respond) => {
-            fetch(IPAddr + `banknum/${destination.trim()}`)
+            fetch(IPAddr + `banknum/${destination}`)
             .then((respond) => respond.json())
             .then((data) => setBanknumDestination(data.banknum))
             .catch((err) => console.log(err))
@@ -131,7 +137,7 @@ export default function TransferMoney(props) {
                 </View>
                 <View style={{flexDirection: "row", justifyContent: "space-between", marginVertical: 10}}>
                     <Text style={{fontWeight: "bold", fontSize: 15}}>Số dư</Text>
-                    <Text style={{color: "green"}}>{CurrencyFormatter(props.route.params.money)}</Text>
+                    <Text style={{color: "green"}}>{Format(props.route.params.money)}</Text>
                 </View>
             </Card>
             <View style={{ marginTop: 70 }}/>
@@ -143,7 +149,7 @@ export default function TransferMoney(props) {
                 leftIcon={{ type: "font-awesome", name: "chevron-left" }}/>
             <View style={{flexDirection: "row", marginTop: 30}}>
                 <Button title="CHUYỂN" disabled={moneyToTransfer == "" || moneyDestination == ""} onPress={() => {
-                    setDate(replaceDate(new Date().toString().replace(" GMT+0700", "")));
+                    setDate(replaceDate(new Date().toString()));
                     onSubmitTransferMoney(props.route.params.username, moneyDestination, moneyToTransfer, date, description);
                     Notify();
                 }}/>
@@ -170,8 +176,8 @@ function TransferMoneySuccessModal(props)
                 <Card.Title style={{fontSize: 35}}>HienneBank</Card.Title>
                 <Card.Title style={{fontSize: 20}}>Chuyển tiền thành công</Card.Title>
                 <AntDesign style={{alignSelf: "center", marginBottom: 10}}name="checkcircle" size={40} color="green" />
-                <Card.Title style={{fontSize: 25, color: "green"}}>{CurrencyFormatter(props.moneyToTransfer)}</Card.Title>
-                <Card.Title>{props.date}</Card.Title>
+                <Card.Title style={{fontSize: 25, color: "green"}}>{Format(props.moneyToTransfer)}</Card.Title>
+                <Card.Title>{replaceDate(props.date)}</Card.Title>
                 <Card.Divider />
                 <View style={{flexDirection: "row", justifyContent: "space-between", marginVertical: 10}}>
                     <Text>Tên người chuyển</Text>

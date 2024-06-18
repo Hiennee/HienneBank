@@ -5,11 +5,11 @@ import { IPAddr } from "../shared/localIP";
 import { Picker } from '@react-native-picker/picker';
 import { AntDesign } from '@expo/vector-icons';
 import { SafeAreaView } from "react-native-safe-area-context";
-import * as Notifications from "expo-notifications"
 
 import replaceDate from "../shared/DateStringReplacer";
-import CurrencyFormatter from "../shared/CurrencyFormatter";
 import Format from "../shared/CurrencyFormatter";
+
+import * as Notifications from "expo-notifications"
 //import { fetch } from "react-native-ssl-pinning";
 
 export default function AddMoney(props) {
@@ -27,10 +27,7 @@ export default function AddMoney(props) {
     //Khi không xài hooking (sử dụng date, setDate tự tạo), dữ liệu đồng nhất vào các thời điểm submit qua API
     //nhưng passing value giữa các props xảy ra vấn đề.
     //var date = "hihi"
-    function setDate(str)
-    {
-        date = str;
-    }
+    function setDate(str) { date = str; }
     // const AlertAddMoneySuccess = () => {
     //     Alert.alert("Thông báo", "Đã nạp thành công " + moneyToAdd + "đ vào tài khoản " + props.route.params.username + " từ " + moneySource, [
     //         {text: "Nạp tiếp", onPress: () => {}},
@@ -99,7 +96,7 @@ export default function AddMoney(props) {
                 </View>
                 <View style={{flexDirection: "row", justifyContent: "space-between", marginVertical: 10}}>
                     <Text style={{fontWeight: "bold", fontSize: 15}}>Số dư</Text>
-                    <Text style={{color: "green"}}>{CurrencyFormatter(props.route.params.money)}</Text>
+                    <Text style={{color: "green"}}>{Format(props.route.params.money)}</Text>
                 </View>
             </Card>
             <View style={{flexDirection: "column", width: "100%", marginTop: 100}}>
@@ -133,10 +130,10 @@ export default function AddMoney(props) {
                     setDate("");
                     navigate("Home")}}/>
             </View>
-                <Modal visible={showSuccessModal} onRequestClose={() => setShowSuccessModal(false)}>
+                <Modal visible={showSuccessModal} onRequestClose={ () => setShowSuccessModal(false) }>
                         <AddMoneySuccessModal date = {date} moneyToAdd = {moneyToAdd} username = {props.route.params.username}
                             banknum = {props.route.params.banknum} destination = {moneySource}
-                            onOk = {() => {navigate("Home")}} onNext = {() => {setShowSuccessModal(false)}}/>
+                            onOk = { () => { navigate("Home") } } onNext = { () => { setShowSuccessModal(false) } }/>
                 </Modal>
         </SafeAreaView>
     )
@@ -151,7 +148,7 @@ function AddMoneySuccessModal(props)
                 <Card.Title style={{fontSize: 35}}>HienneBank</Card.Title>
                 <Card.Title style={{fontSize: 20}}>Nạp tiền thành công</Card.Title>
                 <AntDesign style={{alignSelf: "center", marginBottom: 10}}name="checkcircle" size={40} color="green" />
-                <Card.Title style={{fontSize: 25, color: "green"}}>{CurrencyFormatter(props.moneyToAdd)}</Card.Title>
+                <Card.Title style={{fontSize: 25, color: "green"}}>{Format(props.moneyToAdd)}</Card.Title>
                 <Card.Title>{replaceDate(props.date)}</Card.Title>
                 <Card.Divider />
                 <View style={{flexDirection: "row", justifyContent: "space-between", marginVertical: 10}}>

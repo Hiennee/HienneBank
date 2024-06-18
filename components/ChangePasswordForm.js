@@ -14,11 +14,12 @@ export default function ChangePasswordForm(props)
 
     function onSubmitChangePassword()
     {
+        console.log("New:", newPassword, "Current:", currentPassword)
         if (password != currentPassword) {
             AlertIncorrectPassword();
             return;
         }
-        if (newPassword = password) {
+        if (newPassword == password) {
             AlertSamePassword();
             return;
         }
