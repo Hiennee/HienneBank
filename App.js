@@ -17,7 +17,7 @@ export default function App() {
       { text: "Kết nối lại" }
     ], { cancelable: true })
   })
-  console.log(isLoading)
+
   return ( // Nếu wrap <Main/> vào <View> </View> thì cái View trắng sẽ override Main?
       <>
         { isLoading ? <LoadingScreen/> : 
