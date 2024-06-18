@@ -73,7 +73,6 @@ function SettingsNavigatorScreen(prop)
     return (
         <SettingsNav.Navigator
         initialRouteName="SettingsScreen"
-        key={"a"}
         screenOptions={{ headerShown: false }}>
             <SettingsNav.Screen name="SettingsScreen">
                 {(props) => <Settings {...props} username={prop.username} phonenum={prop.phonenum}
@@ -91,7 +90,7 @@ function SettingsNavigatorScreen(prop)
 
 function MainNavigatorScreen(prop)
 {
-    //console.log(props)
+    console.log("from main nav", prop)
     //console.log(props.money)
     //prop.navigation.replace("Home");
     const MainNavigator = createStackNavigator();
@@ -101,7 +100,7 @@ function MainNavigatorScreen(prop)
         screenOptions={{headerShown: false}}>
             <MainNavigator.Screen name="Home">
                 {(props) => <Home {...props} username={prop.username} money={prop.money} banknum={prop.banknum} 
-                phonenum={prop.phonenum} password={prop.password} color={prop.color}/>}
+                phonenum={prop.phonenum} password={prop.password} color={prop.color} />}
             </MainNavigator.Screen>
             <MainNavigator.Screen name="AddMoney" component={AddMoney} />
             <MainNavigator.Screen name="WithdrawMoney" component={WithdrawMoney} />

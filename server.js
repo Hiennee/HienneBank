@@ -39,6 +39,10 @@ app.get("/users", async (req, res) => {
     res.status(234).send(listData);
 })
 
+app.get("/users/:username", async (req, res) => {
+    res.status(234).send(await userCol.findOne({ username: req.params.username }));
+})
+
 app.post("/register", async (req, res) => {
     var { username, banknum, phonenum, password } = req.body;
     if (await userCol.findOne({ username: username }) != null || await userCol.findOne({ banknum: banknum }) != null ||
@@ -261,7 +265,7 @@ app.put("/update/users/avatar/:username/", async (req, res) =>
         // console.log(`Updated user ${req.params.username}'s phone number to ${newPhonenum}`)
     })
 
-app.delete("/users/delete", async (req, res) => {
+app.delete("/delete/users", async (req, res) => {
     await userCol.deleteMany({}).then(() => {
         res.send({ message: "Successfully deleted all users in table USER" });
         console.log("Successfully deleted all users in table USER")

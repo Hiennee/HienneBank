@@ -11,12 +11,14 @@ export default function Home(props)
 {
     var [toggleCameraGallery, setToggleCameraGallery] = useState(false);
     var [avatar, setAvatar] = useState("");
+    //setAvatar(props.avatarUri);
     var initDate = new Date();
 
     useEffect(() => {
         var renderedSuccessfullyTime = new Date();
         console.log("Delta time from Home: ", renderedSuccessfullyTime - initDate + " ms");
-    })
+    }, [])
+
     function ChangeAvatar(uri)
     {
         setAvatar(uri);
@@ -34,6 +36,8 @@ export default function Home(props)
                     { text: "OK", onPress: () => {} },
                 ], { cancelable: true, onDismiss: () => {} })
             }
+        }).then(() => {
+
         })
     }
     function ToggleCameraGalleryButtons()
@@ -66,9 +70,12 @@ export default function Home(props)
     //console.log(props)
     var [money, setMoney] = useState(0.0);
     //console.log("Home")
-    fetch(IPAddr + `money/${props.username}`)
+    fetch(IPAddr + `users/${props.username}`)
     .then((respond) => respond.json())
-    .then((data) => setMoney(Number(data.money)))
+    .then((data) => {
+        setMoney(Number(data.money));
+        setAvatar(data.avatarUri);
+    })
     .catch((err) => console.log(err))
     //backgroundColor: props?.color == "" ? "#F7BBCF" : props.color
     return (
@@ -83,12 +90,12 @@ export default function Home(props)
             <View style={{ flexDirection: "row", paddingLeft: 50, marginTop: 50, paddingTop: 20, paddingBottom: 20, backgroundColor: "white", borderRadius: 25 }}>
                 <Avatar size={80} rounded source={ avatar == "" ? require("../assets/images/hienmc.png") : { uri: avatar }} iconStyle={{}}>
                     <Avatar.Accessory size={24} onPress={async () => {
-                        setToggleCameraGallery(true);
+                        setToggleCameraGallery(!toggleCameraGallery);
                         await ImagePicker.requestCameraPermissionsAsync();
                         await ImagePicker.requestMediaLibraryPermissionsAsync();
                     }}/>
                 </Avatar>
-                {toggleCameraGallery ? <ToggleCameraGalleryButtons/> : <View/>}
+                {toggleCameraGallery ? <ToggleCameraGalleryButtons /> : <View />}
                 <View style={{flexDirection: "column"}}>
                     <Text style ={{marginLeft: 20, fontWeight: "bold", fontSize: 20}}>{props.banknum}</Text>
                     <Text style ={{marginLeft: 20, fontWeight: "bold", fontSize: 20}}>{props.username}</Text>

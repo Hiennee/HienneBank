@@ -39,9 +39,6 @@ export default function Login(props)
             headers: {
                 "Content-Type": "application/json"
             },
-            sslPinning: {
-                certs: ["certificate"],
-            },
             body: JSON.stringify({
                 username: username.trim().toUpperCase(),
                 password: password
