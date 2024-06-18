@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { View, Text, Alert, Modal } from 'react-native'
 import { Input, Button, Card } from '@rneui/themed'
 import { IPAddr } from '../shared/localIP';
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, MaterialIcons, FontAwesome6 } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import replaceDate from '../shared/DateStringReplacer';
@@ -142,11 +142,11 @@ export default function TransferMoney(props) {
             </Card>
             <View style={{ marginTop: 70 }}/>
             <Input placeholder="Nhập số tiền" keyboardType="numeric" onChangeText={(money) => {setMoneyToTransfer(Number(money))}} 
-                leftIcon={{ type: "font-awesome", name: "chevron-left" }}/>
+                leftIcon={<MaterialIcons name="attach-money" size={24} />}/>
             <Input placeholder='Nhập người nhận...' value={moneyDestination} onChangeText={(destination) => setMoneyDestination(destination.toUpperCase()) } 
-                leftIcon={{ type: "font-awesome", name: "chevron-left" }}/>
+                leftIcon={<AntDesign name="user" size={24} />}/>
             <Input placeholder='Nhập nội dung chuyển khoản...' onChangeText={(description) => setDescription(description) } 
-                leftIcon={{ type: "font-awesome", name: "chevron-left" }}/>
+                leftIcon={<MaterialIcons name="abc" size={24} />}/>
             <View style={{flexDirection: "row", marginTop: 30}}>
                 <Button title="CHUYỂN" disabled={moneyToTransfer == "" || moneyDestination == ""} onPress={() => {
                     setDate(replaceDate(new Date().toString()));

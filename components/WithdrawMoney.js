@@ -3,7 +3,7 @@ import { View, Text, Alert, Modal } from 'react-native';
 import { Input, Button, Card } from '@rneui/themed';
 import { IPAddr } from '../shared/localIP';
 import { Picker } from '@react-native-picker/picker';
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import replaceDate from '../shared/DateStringReplacer';
@@ -104,8 +104,9 @@ export default function WithdrawMoney(props) {
             </Card>
             <View style={{ flexDirection: "column", width: "100%", marginTop: 100 }}>
                 <Input placeholder="Nhập số tiền" keyboardType="numeric" onChangeText={ (money) => { setMoneyToWithdraw(Number(money)) } } 
-                    leftIcon={{ type: "font-awesome", name: "chevron-left" }}/>
-                <View style={{ flexDirection: "row", justifyContent: "space-between", paddingLeft: 30 }}>
+                    leftIcon={<MaterialIcons name="attach-money" size={24} />}/>
+                <View style={{ flexDirection: "row", paddingLeft: 30 }}>
+                    <FontAwesome name="bank" size={24} color="black" style={{ marginLeft: -20 }}/>
                     <Text style={{color: "#565656"}}>Chọn ngân hàng</Text>
                     <Picker style={{width: 200, marginTop: -18 }} selectedValue={ moneyDestination }
                     onValueChange={ (src, idx) => setMoneyDestination(src) }>

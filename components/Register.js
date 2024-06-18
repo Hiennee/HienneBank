@@ -1,7 +1,8 @@
 import { Input } from '@rneui/themed';
 import { Button, Text, View, Alert, SafeAreaView } from 'react-native';
-import { useEffect, useState } from 'react';
-import { IPAddr } from "../shared/localIP";
+import {  useState } from 'react';
+import { IPAddr } from '../shared/localIP';
+import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 
 export default function Register(props)
 {
@@ -11,7 +12,7 @@ export default function Register(props)
     var [password, setPassword] = useState('');
     //navigation.popToTop()
     var { navigate } = props.navigation;
-    console.log(props.navigation);
+
     const AlertRegisterSuccess = () =>
     {
         Alert.alert("THÔNG BÁO", "Tạo tài khoản  " + username + " thành công",
@@ -74,8 +75,8 @@ export default function Register(props)
             <Text style ={{ fontSize: 40, textAlign: "center", paddingTop: 50, paddingBottom: 20 }}>HienneBank</Text>
             <Text style ={{ fontSize: 40, textAlign: "center", paddingBottom: 80 }}>Đăng ký tài khoản</Text>
             <Input placeholder='Tên đăng nhập...' value={username} onChangeText={(username) => { setUsername(username.toUpperCase()) }} 
-                leftIcon={{ type: "font-awesome", name: "chevron-left" }}/>
-            <Input placeholder='Số tài khoản...' keyboardType="numeric" leftIcon={{ type: "font-awesome", name: "chevron-left" }} onChangeText={(banknum) => { 
+                leftIcon={<AntDesign name="user" size={24}/>}/>
+            <Input placeholder='Số tài khoản...' keyboardType="numeric" leftIcon={<MaterialCommunityIcons name="numeric" size={24}/>} onChangeText={(banknum) => { 
                 try {
                     setBanknum(Number(banknum))
                 } 
@@ -86,7 +87,8 @@ export default function Register(props)
                     AlertInvalidInput()
                 }
             }} />
-            <Input placeholder='Số điện thoại...' keyboardType="numeric" leftIcon={{ type: "font-awesome", name: "chevron-left" }} onChangeText={(phonenum) => { 
+            <Input placeholder='Số điện thoại...' keyboardType="numeric" leftIcon={<AntDesign name="phone" size={24} />}
+            onChangeText={(phonenum) => { 
                 try {
                     setPhonenum(Number(phonenum))
                 } 
@@ -98,7 +100,7 @@ export default function Register(props)
                 }
              }} />
             <Input placeholder='Mật khẩu...' secureTextEntry={true} onChangeText={(txt) => { setPassword(txt) }} 
-                leftIcon={{ type: "font-awesome", name: "chevron-left" }}
+                leftIcon={<AntDesign name="eyeo" size={24} />}
                 errorMessage='Mật khẩu phải từ 7-12 ký tự, gồm ký tự đặc biệt và số' />
             <View style={{ flexDirection:"row", justifyContent:"center", marginTop: 80 }}>
                 <Button title="Đăng ký" disabled={username == "" || password == "" || banknum == "" || phonenum == ""} 

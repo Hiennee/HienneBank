@@ -1,8 +1,9 @@
-import { View, Text, Button, Alert } from "react-native"
-import { SafeAreaView } from "react-native-safe-area-context"
-import { useState, useEffect } from "react"
-import { Input } from "@rneui/themed"
-import { IPAddr } from "../shared/localIP"
+import { View, Text, Button, Alert } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useState } from 'react';
+import { Input } from '@rneui/themed';
+import { IPAddr } from '../shared/localIP';
+import { AntDesign } from '@expo/vector-icons';
 //import { fetch } from "react-native-ssl-pinning"
 export default function Login(props)
 {
@@ -62,9 +63,9 @@ export default function Login(props)
         <SafeAreaView style={{backgroundColor: "#e7e4e42d", height: "100vh", width: "100vh"}}>
             <Text style={{textAlign: "center", fontWeight: "bold", justifyContent: "center", fontSize: 50, paddingTop: 150, paddingBottom: 30}}>Đăng nhập</Text>
             <Input placeholder='Tên người dùng...' value={username.toUpperCase()} onChangeText={(txt) => { setUsername(txt) } } 
-                leftIcon={{ type: "font-awesome", name: "chevron-left" }}/>
+                leftIcon={<AntDesign name="user" size={24}/>}/>
             <Input placeholder='Mật khẩu...' secureTextEntry={true} onChangeText={(txt) => { setPassword(txt) }} 
-                leftIcon={{ type: "font-awesome", name: "chevron-left" }} />
+                leftIcon={<AntDesign name="eyeo" size={24}/>} />
             <View style={{ flexDirection:"row", justifyContent:"center" }}>
                 <Button title="ĐĂNG NHẬP" disabled={username == "" || password == ""} onPress={() => { onSubmitLogin(username, password); }}></Button>
                 <View style={{ paddingHorizontal: 20 }}/>

@@ -1,5 +1,5 @@
 import { View, Text } from "react-native";
-import { Card } from "@rneui/themed";
+import { Card, Button } from "@rneui/themed";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AntDesign, Fontisto, FontAwesome5 } from "@expo/vector-icons";
 import * as MailComposer from "expo-mail-composer";
@@ -7,6 +7,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 
 export default function Contact(props)
 {
+    var { navigate } = props.navigation
     function SendMail()
     {
         MailComposer.composeAsync({
@@ -16,6 +17,13 @@ export default function Contact(props)
     }
     return (
         <SafeAreaView>
+            <View style={{flexDirection: "row"}}>
+                <Button iconRight={true} type="clear" onPress={() => navigate("Home")}>
+                    Trang chủ
+                    <AntDesign name="arrowleft" color="#457EE5" size={24}/>
+                </Button>
+                <View />
+            </View>
             <Card>
                 <Card.Title style={{fontSize: 35}}>HienneBank</Card.Title>
                 <Card.Title h4>Liên hệ với chúng tôi</Card.Title>
