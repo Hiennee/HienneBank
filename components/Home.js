@@ -7,6 +7,11 @@ import CurrencyFormatter from "../shared/CurrencyFormatter";
 
 export default function Home(props)
 {
+    var initDate = new Date();
+    useEffect(() => {
+        var renderedSuccessfullyTime = new Date();
+        console.log("Delta time from Home: ", renderedSuccessfullyTime - initDate + " ms");
+    })
     //console.log("from home", props.username, props.money)
     //tức là khi input thay đổi, <AddMoneyModal /> sẽ re-render -> nhưng vì AddMoneyModal là một component con của <Modal/> là một component con của <Home>
     //nên khi re-render là re-render <Home /> nên dữ liệu hiển thị của <AddMoneyModal /> cũng không còn.

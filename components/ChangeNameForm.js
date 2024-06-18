@@ -10,7 +10,7 @@ export default function ChangeNameForm(props)
     var { navigate, replace } = props.navigation
     var { username, phonenum, banknum } = props.route.params;
     var [ newName, setNewName ] = useState("");
-    console.log(props.navigation.getState().routes.length);
+    //console.log(props.navigation.getState().routes.length);
     function onSubmitChangeName()
     {
         Alert.alert("THÔNG BÁO", `Bạn đã yêu cầu đổi tên\nTên cũ: ${username}\nTên mới: ${newName}\n`, [
@@ -21,7 +21,7 @@ export default function ChangeNameForm(props)
         function AlertChangeNameSuccess()
         {
             Alert.alert("THÔNG BÁO", `Đổi tên thành công\nTên cũ: ${username}\nTên mới: ${newName}`, [
-                { text: "OK", onPress: () => replace("LogInSignUp", { screen: "Login" }) }
+                { text: "OK", onPress: () => navigate("LogInSignUp", { screen: "Login" }) }
             ], {cancelable: false})
         }
         function AlertNewNameAlreadyExist()

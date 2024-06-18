@@ -60,16 +60,20 @@ function BridgeNavigatorScreen(prop)
 
 function SettingsNavigatorScreen(prop)
 {
-    var initDate = new Date()
+    //khi gọi settings, ở lần gọi thứ 1, khi bấm vào settings sẽ render n lần (n console log),
+    //nhưng back ra khỏi screen gọi settings n+1 lần (n+1 console log),
+
+    var initDate = new Date();
     useEffect(() => {
         var renderedSuccessfullyTime = new Date();
-        console.log("Delta time from SettingsNav: ", initDate - renderedSuccessfullyTime);
+        console.log("Delta time from SettingsNav: ", renderedSuccessfullyTime - initDate + " ms");
     })
     //console.log(prop)
     const SettingsNav = createStackNavigator();
     return (
         <SettingsNav.Navigator
         initialRouteName="SettingsScreen"
+        key={"a"}
         screenOptions={{ headerShown: false }}>
             <SettingsNav.Screen name="SettingsScreen">
                 {(props) => <Settings {...props} username={prop.username} phonenum={prop.phonenum}

@@ -11,7 +11,7 @@ export default function ChangeAccountNumberForm(props)
     var { username, phonenum, banknum } = props.route.params;
     var [ newBanknum, setNewBanknum ] = useState("");
     console.log("abc");
-    console.log(props.navigation.state)
+
     function onSubmitChangeAccountNumber()
     {
         Alert.alert("THÔNG BÁO", `Bạn đã yêu cầu đổi số tài khoản\nSố tài khoản cũ: ${banknum}\nSố tài khoản mới: ${newBanknum}\n`, [
@@ -22,7 +22,7 @@ export default function ChangeAccountNumberForm(props)
         function AlertChangeAccountNumberSuccess()
         {
             Alert.alert("THÔNG BÁO", `Đổi số tài khoản thành công\nSố tài khoản cũ: ${banknum}\nSố tài khoản mới: ${newBanknum}`, [
-                {text: "OK", onPress: () => /*replace("LogInSignUp", {screen: "Login"})*/navigation.pop(1)}
+                {text: "OK", onPress: () => /*replace("LogInSignUp", {screen: "Login"})*/props.navigation.pop(1)}
             ], { cancelable: false })
         }
         function AlertAccountNumberAlreadyExist()
