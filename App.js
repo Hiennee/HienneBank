@@ -1,8 +1,9 @@
 import { ActivityIndicator, View, Alert } from 'react-native';
 import { useState } from 'react';
-import Main from './components/Main';
 import { IPAddr } from './shared/localIP';
 import { Text } from '@rneui/themed';
+
+import Main from './components/Main';
 
 export default function App() {
   var [ isLoading, setIsLoading ] = useState(true);
