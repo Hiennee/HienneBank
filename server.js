@@ -57,6 +57,7 @@ app.post("/register", async (req, res) => {
         phonenum: phonenum,
         password: password,
         money: 50000,
+        avatarUri: "",
     })
     console.log("Successfully registered new user, unique ID from MongoDB:", result.insertedId);
     res.status(234).send({ message: "Successfully registered new user, unique ID from MongoDB:" + result.insertedId })
