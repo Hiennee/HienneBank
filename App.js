@@ -14,7 +14,7 @@ export default function App() {
   })
   .catch((err) => {
     Alert.alert("THÔNG BÁO", "Có lỗi khi kết nối đến máy chủ", [
-      {text: "Kết nối lại"}
+      { text: "Kết nối lại" }
     ], { cancelable: true })
   })
   console.log(isLoading)
@@ -29,7 +29,7 @@ export default function App() {
 function LoadingScreen()
 {
   return (
-    <View style={{justifyContent: 'center', flex: 1}}>
+    <View style={{ justifyContent: 'center', flex: 1 }}>
       <ActivityIndicator size="large"/>
       <Text style={{ textAlign: "center" }}>Đang tải...</Text>
     </View>
