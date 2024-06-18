@@ -22,13 +22,14 @@ export default function Home(props)
     function ChangeAvatar(uri)
     {
         setAvatar(uri);
+        //console.log(avatar);
         fetch(IPAddr + `update/users/avatar/${props.username}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                avatarUri: avatar,
+                avatarUri: uri,
             }),
         }).then((respond) => {
             if (respond.status == 234) {
@@ -55,6 +56,7 @@ export default function Home(props)
                     setToggleCameraGallery(false);
                     var result = await ImagePicker.launchImageLibraryAsync({ allowsEditing: true, aspect: [4, 3], legacy: true });
                     if (!result.canceled) {
+                        console.log(result.assets)
                         ChangeAvatar(result.assets[0].uri);
                     }}}/>
             </View>

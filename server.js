@@ -233,7 +233,7 @@ app.put("/update/users/phonenum/:username/", async (req, res) =>
 app.put("/update/users/avatar/:username/", async (req, res) => 
     {
         var { avatarUri } = req.body;
-    
+        console.log("avatar:", avatarUri);
         if (await userCol.findOne({ username: req.params.username }) == null) {
             res.status(345).send({ message: "Có gì đó sai sai" });
             console.log("Có gì đó sai sai");
