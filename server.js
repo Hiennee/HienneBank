@@ -225,6 +225,42 @@ app.put("/update/users/phonenum/:username/", async (req, res) =>
     // console.log(`Updated user ${req.params.username}'s phone number to ${newPhonenum}`)
 })
 
+app.put("/update/users/avatar/:username/", async (req, res) => 
+    {
+        var { avatarUri } = req.body;
+    
+        if (await userCol.findOne({ username: req.params.username }) == null) {
+            res.status(345).send({ message: "Có gì đó sai sai" });
+            console.log("Có gì đó sai sai");
+            return;
+        }
+        userCol.updateOne({ username: req.params.username }, {
+            $set: { avatarUri: avatarUri }
+        })
+        .then(() => {
+            res.status(234).send({ message: "Edit avatar successfully!" });
+            console.log("Edit avatar successfully!");
+        })
+        .catch((err) => res.status(345).send({ message: err}));
+        
+        
+        // var result = await (await db).query(`SELECT * FROM USER WHERE username = '${req.params.username}'`)
+        // if (result[0].length == 0) {
+        //     res.status(345).send({ message: "Username doesn't exist" });
+        //     console.log("Username doesn't exist");
+        //     return;
+        // }
+        // var result = await (await db).query(`SELECT * FROM USER WHERE phonenum = '${newPhonenum}'`)
+        // if (result[0].length > 0) {
+        //     res.status(346).send({ message: `Phone number ${newPhonenum} has already been taken` });
+        //     console.log(`Phone number ${newPhonenum} has already been taken`);
+        //     return;
+        // }
+        // var result = await (await db).query(`UPDATE USER SET phonenum = '${newPhonenum}' where username = '${req.params.username}'`)
+        // res.status(234).send({ message: `Updated user ${req.params.username}'s phone number to ${newPhonenum}` })
+        // console.log(`Updated user ${req.params.username}'s phone number to ${newPhonenum}`)
+    })
+
 app.delete("/users/delete", async (req, res) => {
     await userCol.deleteMany({}).then(() => {
         res.send({ message: "Successfully deleted all users in table USER" });

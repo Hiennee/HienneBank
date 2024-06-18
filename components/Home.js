@@ -1,17 +1,61 @@
 import { SafeAreaView, Text, View, ScrollView, Alert, TouchableOpacity } from "react-native"
-import { Avatar, Divider, Input } from "@rneui/themed"
+import { Avatar, Divider, Button } from "@rneui/themed"
 import { MaterialCommunityIcons, FontAwesome, FontAwesome6, Ionicons, Entypo } from '@expo/vector-icons';
 import { useState, useEffect } from "react";
 import { IPAddr } from "../shared/localIP";
+
 import CurrencyFormatter from "../shared/CurrencyFormatter";
+import * as ImagePicker from "expo-image-picker";
 
 export default function Home(props)
 {
+    var [toggleCameraGallery, setToggleCameraGallery] = useState(false);
+    var [avatar, setAvatar] = useState("");
     var initDate = new Date();
+
     useEffect(() => {
         var renderedSuccessfullyTime = new Date();
         console.log("Delta time from Home: ", renderedSuccessfullyTime - initDate + " ms");
     })
+    function ChangeAvatar(uri)
+    {
+        setAvatar(uri);
+        fetch(IPAddr + `update/users/avatar/${props.username}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                avatarUri: avatar,
+            }),
+        }).then((respond) => {
+            if (respond.status == 234) {
+                Alert.alert("THÔNG BÁO", "Đổi ảnh đại diện thành công!", [
+                    { text: "OK", onPress: () => {} },
+                ], { cancelable: true, onDismiss: () => {} })
+            }
+        })
+    }
+    function ToggleCameraGalleryButtons()
+    {
+        return (
+            <View style={{ marginLeft: 10, alignSelf: "center" }}>
+                <Button title="Camera" size="sm" onPress={async () => {
+                    setToggleCameraGallery(false);
+                    var result = await ImagePicker.launchCameraAsync({ allowsEditing: true, aspect: [4, 3], cameraType: ImagePicker.CameraType.front });
+                    if (!result.canceled) {
+                        ChangeAvatar(result.assets[0].uri);
+                    }}}/>
+                <View style={{ marginVertical: 2 }} />
+                <Button title="Gallery" size="sm" onPress={async () => {
+                    setToggleCameraGallery(false);
+                    var result = await ImagePicker.launchImageLibraryAsync({ allowsEditing: true, aspect: [4, 3], legacy: true });
+                    if (!result.canceled) {
+                        ChangeAvatar(result.assets[0].uri);
+                    }}}/>
+            </View>
+        )
+    }
     //console.log("from home", props.username, props.money)
     //tức là khi input thay đổi, <AddMoneyModal /> sẽ re-render -> nhưng vì AddMoneyModal là một component con của <Modal/> là một component con của <Home>
     //nên khi re-render là re-render <Home /> nên dữ liệu hiển thị của <AddMoneyModal /> cũng không còn.
@@ -35,14 +79,16 @@ export default function Home(props)
                     <Ionicons name="settings-sharp" size={24} color="white" />
                 </TouchableOpacity>
             </View>
-            <Text style={{textAlign:"center", marginTop: 20, fontWeight: "bold", fontSize: 30}}>HienneBank</Text>
-            <View style={{flexDirection: "row", paddingLeft: 50, marginTop: 50, paddingTop: 20, paddingBottom: 20, backgroundColor: "white", borderRadius: 25}}>
-                <Avatar size={80} rounded source={require("../assets/images/hienmc.png")} iconStyle={{}}>
-                    <Avatar.Accessory size={24} onPress={() => Alert.alert("Hihi", "Đẹp trai rồi ko cần đổi", 
-                    [
-                        {text: "OK", onPress: () => {}}
-                    ])}/>
+            <Text style={{ textAlign:"center", marginTop: 20, fontWeight: "bold", fontSize: 30 }}>HienneBank</Text>
+            <View style={{ flexDirection: "row", paddingLeft: 50, marginTop: 50, paddingTop: 20, paddingBottom: 20, backgroundColor: "white", borderRadius: 25 }}>
+                <Avatar size={80} rounded source={ avatar == "" ? require("../assets/images/hienmc.png") : { uri: avatar }} iconStyle={{}}>
+                    <Avatar.Accessory size={24} onPress={async () => {
+                        setToggleCameraGallery(true);
+                        await ImagePicker.requestCameraPermissionsAsync();
+                        await ImagePicker.requestMediaLibraryPermissionsAsync();
+                    }}/>
                 </Avatar>
+                {toggleCameraGallery ? <ToggleCameraGalleryButtons/> : <View/>}
                 <View style={{flexDirection: "column"}}>
                     <Text style ={{marginLeft: 20, fontWeight: "bold", fontSize: 20}}>{props.banknum}</Text>
                     <Text style ={{marginLeft: 20, fontWeight: "bold", fontSize: 20}}>{props.username}</Text>
