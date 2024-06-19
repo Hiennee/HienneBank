@@ -45,6 +45,7 @@ app.get("/users/:username", async (req, res) => {
 
 app.post("/register", async (req, res) => {
     var { username, banknum, phonenum, password } = req.body;
+    console.log("From backend check:", Object.prototype.toString.call(username), Object.prototype.toString.call(banknum), Object.prototype.toString.call(phonenum), Object.prototype.toString.call(password))
     if (await userCol.findOne({ username: username }) != null || await userCol.findOne({ banknum: banknum }) != null ||
         await userCol.findOne({ phonenum: phonenum }) != null) {
         res.status(345).send({ message: "Username, bank number or phone number already exists" });
@@ -593,13 +594,13 @@ app.delete("/history/delete", async (req, res) =>
 // // ----------------------------------------- Bank numbers ---------------------------------------------
 app.get("/banknum/:username", async (req, res) => 
 {
-    var result = (await userCol.findOne({ username: req.params.username.toUpperCase() })).banknum;
+    var result = (await userCol.findOne({ username: req.params.username.toUpperCase() }));
     if (result == null) {
         console.log("Invalid Username");
         res.status(345).send({ message: "Invalid Username" });
         return
     }
-    res.status(234).send({ banknum: result })
+    res.status(234).send({ banknum: result.banknum })
     console.log(result);
     // var result = await (await db).query(`SELECT banknum FROM User WHERE username = '${req.params.username.toUpperCase()}'`)
     // if (result[0].length == 0) {

@@ -42,6 +42,7 @@ export default function Register(props)
         ],  {cancelable: true})
     }
     const onSubmitRegister = (username, banknum, phonenum, password) => {
+        console.log("From frontend check:", Object.prototype.toString.call(username), Object.prototype.toString.call(banknum),Object.prototype.toString.call(phonenum),Object.prototype.toString.call(password))
         fetch(IPAddr + "register", {
             method: "POST",
             headers: { // nhớ cái này giùm cái
@@ -49,8 +50,8 @@ export default function Register(props)
             },
             body: JSON.stringify({
                 username: username.trim().toUpperCase(),
-                banknum: banknum,
-                phonenum: phonenum,
+                banknum: banknum.toString(),
+                phonenum: phonenum.toString(),
                 password: password
             })
         })
@@ -77,7 +78,7 @@ export default function Register(props)
             <Input placeholder='Tên đăng nhập...' value={username} onChangeText={(username) => { setUsername(username.toUpperCase()) }} 
                 leftIcon={<AntDesign name="user" size={24}/>}/>
             <Input placeholder='Số tài khoản...' keyboardType="numeric" leftIcon={<MaterialCommunityIcons name="numeric" size={24}/>} onChangeText={(banknum) => { 
-                try {
+                try { // nếu keyboard type là 
                     setBanknum(Number(banknum))
                 } 
                 catch (err)
