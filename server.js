@@ -45,7 +45,7 @@ app.get("/users/:username", async (req, res) => {
 
 app.post("/register", async (req, res) => {
     var { username, banknum, phonenum, password } = req.body;
-    console.log("From backend check:", Object.prototype.toString.call(username), Object.prototype.toString.call(banknum), Object.prototype.toString.call(phonenum), Object.prototype.toString.call(password))
+    //console.log("From backend check:", Object.prototype.toString.call(username), Object.prototype.toString.call(banknum), Object.prototype.toString.call(phonenum), Object.prototype.toString.call(password))
     if (await userCol.findOne({ username: username }) != null || await userCol.findOne({ banknum: banknum }) != null ||
         await userCol.findOne({ phonenum: phonenum }) != null) {
         res.status(345).send({ message: "Username, bank number or phone number already exists" });

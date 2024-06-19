@@ -42,7 +42,7 @@ export default function Register(props)
         ],  {cancelable: true})
     }
     const onSubmitRegister = (username, banknum, phonenum, password) => {
-        console.log("From frontend check:", Object.prototype.toString.call(username), Object.prototype.toString.call(banknum),Object.prototype.toString.call(phonenum),Object.prototype.toString.call(password))
+        //console.log("From frontend check:", Object.prototype.toString.call(username), Object.prototype.toString.call(banknum),Object.prototype.toString.call(phonenum),Object.prototype.toString.call(password))
         fetch(IPAddr + "register", {
             method: "POST",
             headers: { // nhớ cái này giùm cái

@@ -20,7 +20,7 @@ export default function Information(props)
             <Card>
                 <Card.Title style={{fontSize: 35}}>HienneBank</Card.Title>
                 <View style={{flexDirection: "row", justifyContent: "space-evenly", marginVertical: 5}}>
-                    <Avatar size={60} rounded source={avatarUri == "" ? require('../assets/images/hienmc.png') : {uri: avatarUri}}/>
+                    <Avatar size={60} rounded source={avatarUri == "" ? require('../assets/images/default_avatar.png') : {uri: avatarUri}}/>
                     <View style={{flexDirection: "column", alignItems: "flex-start"}}>
                         <Card.Title style={{fontSize: 25, marginBottom: 5}}>{banknum}</Card.Title>
                         <Card.Title>{username}</Card.Title>

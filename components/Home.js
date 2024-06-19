@@ -90,7 +90,7 @@ export default function Home(props)
             </View>
             <Text style={{ textAlign:"center", marginTop: 20, fontWeight: "bold", fontSize: 30 }}>HienneBank</Text>
             <View style={{ flexDirection: "row", paddingLeft: 50, marginTop: 50, paddingTop: 20, paddingBottom: 20, backgroundColor: "white", borderRadius: 25 }}>
-                <Avatar size={80} rounded source={ avatar == "" ? require("../assets/images/hienmc.png") : { uri: avatar }} iconStyle={{}}>
+                <Avatar size={80} rounded source={ avatar == "" ? require("../assets/images/default_avatar.png") : { uri: avatar }} iconStyle={{}}>
                     <Avatar.Accessory size={24} onPress={async () => {
                         setToggleCameraGallery(!toggleCameraGallery);
                         await ImagePicker.requestCameraPermissionsAsync();
