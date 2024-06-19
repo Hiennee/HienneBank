@@ -6,7 +6,7 @@ import Format from '../shared/CurrencyFormatter';
 
 export default function Information(props)
 {
-    var { username, money, banknum, phonenum } = props.route.params;
+    var { username, money, banknum, phonenum, avatarUri } = props.route.params;
     var { navigate } = props.navigation
     return (
         <SafeAreaView>
@@ -20,7 +20,7 @@ export default function Information(props)
             <Card>
                 <Card.Title style={{fontSize: 35}}>HienneBank</Card.Title>
                 <View style={{flexDirection: "row", justifyContent: "space-evenly", marginVertical: 5}}>
-                    <Avatar size={60} rounded source={require('../assets/images/hienmc.png')}/>
+                    <Avatar size={60} rounded source={avatarUri == "" ? require('../assets/images/hienmc.png') : {uri: avatarUri}}/>
                     <View style={{flexDirection: "column", alignItems: "flex-start"}}>
                         <Card.Title style={{fontSize: 25, marginBottom: 5}}>{banknum}</Card.Title>
                         <Card.Title>{username}</Card.Title>

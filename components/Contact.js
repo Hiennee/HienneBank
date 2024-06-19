@@ -30,7 +30,7 @@ export default function Contact(props)
                 <Card.Divider style={{marginBottom: 40}}/>
                 <Text style={{marginBottom: 30}}>
                     <FontAwesome5 name="user-alt" size={24} color="black" />
-                    {"\t"}CEO: Mã Chấn Hiền
+                    {"\t"}Sư Phụ Mã
                 </Text>
                 <Text style={{marginBottom: 15}}>
                     <AntDesign name="phone" size={24} color="black" />

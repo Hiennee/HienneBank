@@ -78,6 +78,7 @@ export default function TransferMoney(props) {
     function onSubmitTransferMoney(username, destination, money, date, description)
     {
         var destination = destination.trim().toUpperCase();
+        //console.log(destination);
         var username = username.trim().toUpperCase();
         if (destination == username) {
             AlertSameDestination();
@@ -141,10 +142,10 @@ export default function TransferMoney(props) {
                 </View>
             </Card>
             <View style={{ marginTop: 70 }}/>
-            <Input placeholder="Nhập số tiền" keyboardType="numeric" onChangeText={(money) => {setMoneyToTransfer(Number(money))}} 
-                leftIcon={<MaterialIcons name="attach-money" size={24} />}/>
             <Input placeholder='Nhập người nhận...' value={moneyDestination} onChangeText={(destination) => setMoneyDestination(destination.toUpperCase()) } 
                 leftIcon={<AntDesign name="user" size={24} />}/>
+            <Input placeholder="Nhập số tiền" keyboardType="numeric" onChangeText={(money) => {setMoneyToTransfer(Number(money))}} 
+                leftIcon={<MaterialIcons name="attach-money" size={24} />}/>
             <Input placeholder='Nhập nội dung chuyển khoản...' onChangeText={(description) => setDescription(description) } 
                 leftIcon={<MaterialIcons name="abc" size={24} />}/>
             <View style={{flexDirection: "row", marginTop: 30}}>

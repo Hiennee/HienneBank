@@ -144,7 +144,7 @@ export default function Home(props)
                     </View>
                     <View style={{ flexDirection: "column", justifyContent: "center" }}>
                         <TouchableOpacity onPress={() => navigate("Information", { username: props.username, money: money, 
-                            banknum: props.banknum, phonenum: props.phonenum })}>
+                            banknum: props.banknum, phonenum: props.phonenum, avatarUri: avatar })}>
                             <FontAwesome name="user-circle-o" size={35} color="black"/>
                         </TouchableOpacity>
                         <Text>Hồ sơ</Text>

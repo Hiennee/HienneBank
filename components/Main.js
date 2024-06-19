@@ -90,7 +90,7 @@ function SettingsNavigatorScreen(prop)
 
 function MainNavigatorScreen(prop)
 {
-    console.log("from main nav", prop)
+    //console.log("from main nav", prop)
     //console.log(props.money)
     //prop.navigation.replace("Home");
     const MainNavigator = createStackNavigator();

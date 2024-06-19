@@ -15,8 +15,8 @@ export default function Register(props)
 
     const AlertRegisterSuccess = () =>
     {
-        Alert.alert("THÔNG BÁO", "Tạo tài khoản  " + username + " thành công",
-        [{ text: "OK", onPress: () => {navigate("Login") }}
+        Alert.alert("THÔNG BÁO", "Tạo tài khoản " + username + " thành công",
+        [{ text: "OK", onPress: () => { navigate("Login") }}
         ], {cancelable: true})
     }
 

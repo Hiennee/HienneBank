@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { FlatList } from 'react-native-gesture-handler';
 import { Button, Card } from '@rneui/themed';
-import { AntDesign, Ionicons, Fontisto } from '@expo/vector-icons';
+import { AntDesign, Ionicons, Fontisto, FontAwesome5 } from '@expo/vector-icons';
 import { ScrollView } from 'react-native-virtualized-view';
 
 export default function FAQ(props)
@@ -138,8 +138,8 @@ function RenderFAQ(props)
             case "About HienneBank":
                 return (
                     <View style={{paddingVertical: 20, paddingHorizontal: 30, backgroundColor: color}}>
-                        <Text>HienneBank được thành lập vào năm 2024 với đội ngũ hùng mạnh (1 người){"\n\n"}
-                            CEO: Mã Chấn Hiền {"\n"}
+                        <Text>HienneBank được thành lập vào năm 2024{"\n\n"}
+                            <FontAwesome5 name="user-alt" size={24} color="black" />Sư Phụ Mã {"\n"}
                             <AntDesign name="phone" size={24} color="black" /> 0902 522 036 {"\n"}
                             <Fontisto name="email" size={24} color="black" /> chanhien55@gmail.com
                         </Text>
