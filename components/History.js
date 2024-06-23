@@ -61,9 +61,9 @@ function RenderHistory(props)
                 <View style={{ flexDirection: "row" }}>
                     {action == "ADD" ? <Ionicons style={{ marginTop: 20, marginRight: 20 }} name="add-circle-outline" size={45} color="green" /> : 
                     <MaterialCommunityIcons style={{marginTop: 20, marginRight: 20 }} name="minus-circle-outline" size={45} color="red" />}
-                    <View style={{width: "100%"}}>
+                    <View>
                         <Text style={{fontStyle: "italic", fontSize: 11}}>{date}</Text>
-                        <View style={{display: "flex", flexDirection: "row"}}>
+                        <View style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
                             <Text>Từ: {source}</Text>
                             <Text>Đến: {destination}</Text>
                         </View>

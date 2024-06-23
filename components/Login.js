@@ -66,7 +66,7 @@ export default function Login(props)
                 leftIcon={<AntDesign name="user" size={24}/>}/>
             <Input placeholder='Mật khẩu...' secureTextEntry={true} onChangeText={(txt) => { setPassword(txt) }} 
                 leftIcon={<AntDesign name="eyeo" size={24}/>} />
-            <View style={{ flexDirection:"row", justifyContent:"center" }}>
+            <View style={{ flexDirection:"row", justifyContent:"center", marginTop: 70 }}>
                 <Button title="ĐĂNG NHẬP" disabled={username == "" || password == ""} onPress={() => { onSubmitLogin(username, password); }}></Button>
                 <View style={{ paddingHorizontal: 20 }}/>
                 <Button title="QUAY LẠI" onPress={() => navigate("Greetings")}></Button>

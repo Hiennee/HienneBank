@@ -1,15 +1,20 @@
-import { Input } from '@rneui/themed';
-import { Button, Text, View, Alert, SafeAreaView } from 'react-native';
+import { Input, Button } from '@rneui/themed';
+import { Text, View, Alert, SafeAreaView } from 'react-native';
 import {  useState } from 'react';
 import { IPAddr } from '../shared/localIP';
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 
 export default function Register(props)
 {
-    var [username, setUsername] = useState('');
-    var [banknum, setBanknum] = useState('');
-    var [phonenum, setPhonenum] = useState('');
-    var [password, setPassword] = useState('');
+    var [ username, setUsername ] = useState('');
+    var [ banknum, setBanknum]  = useState('');
+    var [ phonenum, setPhonenum ] = useState('');
+    var [ password, setPassword ] = useState('');
+
+    //var [ isValidUsername, setIsValidUsername ] = useState(false);
+    var [ isValidBanknum, setIsValidBanknum ] = useState(false);
+    var [ isValidPhonenum, setIsValidPhonenum ] = useState(false);
+    var [ isValidPassword, setIsValidPassword ] = useState(false);
     //navigation.popToTop()
     var { navigate } = props.navigation;
 
@@ -72,26 +77,42 @@ export default function Register(props)
     }
     //console.log("Register")
     return (
-        <SafeAreaView style={{backgroundColor: "#e7e4e42d", height: "100vh", width: "100vh"}}>
+        <SafeAreaView style={{ backgroundColor: "#e7e4e42d", height: "100vh", width: "100vh" }}>
             <Text style ={{ fontSize: 40, textAlign: "center", paddingTop: 50, paddingBottom: 20 }}>HienneBank</Text>
             <Text style ={{ fontSize: 40, textAlign: "center", paddingBottom: 80 }}>Đăng ký tài khoản</Text>
             <Input placeholder='Tên đăng nhập...' value={username} onChangeText={(username) => { setUsername(username.toUpperCase()) }} 
                 leftIcon={<AntDesign name="user" size={24}/>}/>
-            <Input placeholder='Số tài khoản...' keyboardType="numeric" leftIcon={<MaterialCommunityIcons name="numeric" size={24}/>} onChangeText={(banknum) => { 
-                try { // nếu keyboard type là 
-                    setBanknum(Number(banknum))
-                } 
-                catch (err)
-                {
-                    console.log(err)
-                    console.log("Not a number")
-                    AlertInvalidInput()
-                }
+            <Input placeholder='Số tài khoản...' keyboardType="numeric" leftIcon={<MaterialCommunityIcons name="numeric" size={24}/>}
+                onChangeText={(banknum) => { 
+                    try { // nếu keyboard type là 
+                        setBanknum(Number(banknum))
+                        if (banknum.length >= 3 && banknum.length <= 12) {
+                            //console.log("im valid");
+                            setIsValidBanknum(true);
+                        }
+                        else {
+                            setIsValidBanknum(false)
+                        }
+                    } 
+                    catch (err)
+                    {
+                        console.log(err)
+                        console.log("Not a number")
+                        AlertInvalidInput()
+                    }
             }} />
+            {isValidBanknum ? <View /> : 
+            <Text children="Số tài khoản phải từ 3-12 số" style={{ marginLeft: 15, marginTop: -20, color: "red", fontSize: 12 }}/>}
             <Input placeholder='Số điện thoại...' keyboardType="numeric" leftIcon={<AntDesign name="phone" size={24} />}
             onChangeText={(phonenum) => { 
                 try {
                     setPhonenum(Number(phonenum))
+                    if (phonenum.length === 10 && phonenum.startsWith("0")) {
+                        setIsValidPhonenum(true);
+                    }
+                    else {
+                        setIsValidPhonenum(false);
+                    }
                 } 
                 catch (err)
                 {
@@ -100,14 +121,15 @@ export default function Register(props)
                     AlertInvalidInput()
                 }
              }} />
+            {isValidPhonenum ? <View /> : 
+            <Text children="Số điện thoải phải gồm 10 số, bắt đầu từ 0" style={{ marginLeft: 15, marginTop: -20, color: "red", fontSize: 12 }}/>}
             <Input placeholder='Mật khẩu...' secureTextEntry={true} onChangeText={(txt) => { setPassword(txt) }} 
-                leftIcon={<AntDesign name="eyeo" size={24} />}
-                errorMessage='Mật khẩu phải từ 7-12 ký tự, gồm ký tự đặc biệt và số' />
+                leftIcon={<AntDesign name="eyeo" size={24} /> } />
             <View style={{ flexDirection:"row", justifyContent:"center", marginTop: 80 }}>
-                <Button title="Đăng ký" disabled={username == "" || password == "" || banknum == "" || phonenum == ""} 
+                <Button title="ĐĂNG KÝ" disabled={ username == "" || password == "" || !isValidBanknum || !isValidPhonenum } 
                     onPress={() => { onSubmitRegister(username, banknum, phonenum, password); }} />
                 <View style={{ paddingHorizontal:10 }} />
-                <Button title="Hủy" onPress={() => navigate("Greetings")} />
+                <Button title="HỦY" onPress={() => navigate("Greetings")} />
             </View>
         </SafeAreaView>
     )
