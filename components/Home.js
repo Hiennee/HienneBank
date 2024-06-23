@@ -120,20 +120,20 @@ export default function Home(props)
                         </TouchableOpacity>
                         <Text style={{marginLeft:-10}}>Rút tiền</Text>
                     </View>
-                    <View style={{flexDirection: "column", justifyContent: "center" }}>
-                        <TouchableOpacity>
-                            <MaterialCommunityIcons name="piggy-bank" size={35} color="black" />
-                        </TouchableOpacity>
-                        <Text style={{marginLeft:-10}}>Đầu tư</Text>
-                    </View>
-                </View>
-                <View style={{flexDirection: "row", justifyContent: "space-between", marginTop: 50}}>
                     <View style={{flexDirection: "column", justifyContent: "center"}}>
                         <TouchableOpacity onPress={() => navigate("TransferMoney", { username: props.username, banknum: props.banknum,
                             money: money })}>
                             <MaterialCommunityIcons name="cash-fast" size={35} color="black" />
                         </TouchableOpacity>
                         <Text style={{marginLeft:-10, fontSize: 10}}>Chuyển tiền</Text>
+                    </View>
+                </View>
+                <View style={{flexDirection: "row", justifyContent: "space-between", marginTop: 50}}>
+                    <View style={{flexDirection: "column", justifyContent: "center" }}>
+                        <TouchableOpacity>
+                            <MaterialCommunityIcons name="piggy-bank" size={35} color="black" />
+                        </TouchableOpacity>
+                        <Text style={{marginLeft:-10}}>Đầu tư</Text>
                     </View>
                     <View style={{flexDirection: "column", justifyContent: "center"}}>
                         <TouchableOpacity onPress={() => navigate("History", { username: props.username, money: money, 
