@@ -7,30 +7,36 @@ import { AntDesign } from '@expo/vector-icons';
 //import { fetch } from "react-native-ssl-pinning"
 export default function Login(props)
 {
-    var [username, setUsername] = useState('');
-    var [password, setPassword] = useState('');
+    var [ username, setUsername ] = useState('');
+    var [ password, setPassword ] = useState('');
 
     var { navigate, replace } = props.navigation;
     //var { color } = props.route.params;
+    console.log("Nav State: ", props.navigation.getState());
 
     const AlertLoginFailed = () =>
     {
         Alert.alert("THÔNG BÁO", "Sai tên người dùng hoặc mật khẩu",
         [{
                 text: "Need help?",
-                onPress: () => Alert.alert("THÔNG BÁO", "hết cứu",
+                onPress: () => Alert.alert("THÔNG BÁO", "gg",
                 [{ text: ":(", onPress: () => navigate("Greetings") }],
                 {cancelable: true})},
             { text: "OK", onPress: () => navigate("Login") }
-        ], {cancelable: true})
+        ], { cancelable: true })
     }
 
     const AlertLoginSuccess = (json) =>
     {
         //console.log(json.money);
         Alert.alert("THÔNG BÁO", "Đăng nhập thành công với tài khoản " + username.trim().toUpperCase(),
-        [{ text: "OK", onPress: () => {replace("Bridge", { username: username.trim().toUpperCase(), money: json.money, 
-                banknum: json.banknum, phonenum: json.phonenum, password: password, /*color: color*/ })} }
+        // khi từ change form navigate thẳng qua Login, do không có khái niệm về bridge nên không route qua được cái này
+        [{ text: "OK", onPress: () => {
+            setUsername("");
+            setPassword("");
+            navigate("Bridge", { username: username.trim().toUpperCase(), money: json.money, 
+                banknum: json.banknum, phonenum: json.phonenum, password: password, /*color: color*/ }) 
+            }}
         ], {cancelable: true} )
     }
 
@@ -51,13 +57,18 @@ export default function Login(props)
             }
             else if (respond.status == 234) {
                 //AlertLoginSuccess(await respond.json())
-                //console.log(await respond.json())
+                var json = await respond.json();
+                console.log(json);
                 //console.log(navigate)
                 //console.log("hello");
                 //navigate("Bridge", { username: username, money: json.money, banknum: json.banknum, phonenum: json.phonenum })
-                AlertLoginSuccess(await respond.json());
+                AlertLoginSuccess(json);
             }
-        }).catch((err) => {AlertLoginFailed(); console.log(err)})
+        }).catch((err) => {
+            AlertLoginFailed();
+            console.log("Caught Error from Login");
+            console.log(err);
+        })
     }
     return (
         <SafeAreaView style={{backgroundColor: "#e7e4e42d", height: "100vh", width: "100vh"}}>

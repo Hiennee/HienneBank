@@ -21,7 +21,13 @@ export default function Register(props)
     const AlertRegisterSuccess = () =>
     {
         Alert.alert("THÔNG BÁO", "Tạo tài khoản " + username + " thành công",
-        [{ text: "OK", onPress: () => { navigate("Login") }}
+        [{ text: "OK", onPress: () => {
+            setUsername("");
+            setBanknum("");
+            setPhonenum("");
+            setPassword("");
+            navigate("Login");
+        }}
         ], {cancelable: true})
     }
 
@@ -116,9 +122,9 @@ export default function Register(props)
                 } 
                 catch (err)
                 {
-                    console.log(err)
-                    console.log("Not a number")
-                    AlertInvalidInput()
+                    console.log(err);
+                    console.log("Not a number");
+                    AlertInvalidInput();
                 }
              }} />
             {isValidPhonenum ? <View /> : 

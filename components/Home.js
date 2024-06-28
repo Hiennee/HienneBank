@@ -43,6 +43,7 @@ export default function Home(props)
     }
     function ToggleCameraGalleryButtons()
     {
+    
         return (
             <View style={{ marginLeft: 10, alignSelf: "center" }}>
                 <Button title="Camera" size="sm" onPress={async () => {
@@ -73,18 +74,27 @@ export default function Home(props)
     var [money, setMoney] = useState(0.0);
     //console.log("Home")
     fetch(IPAddr + `users/${props.username}`)
-    .then((respond) => respond.json())
+    .then((respond) => {
+        //console.log(await respond.json()); 
+        return respond.json();
+    })
     .then((data) => {
+        //tại sao console log nhiều lần????????????????????
+        //console.log("data:", data);
         setMoney(Number(data.money));
         setAvatar(data.avatarUri);
     })
-    .catch((err) => console.log(err))
+    .catch((err) => {
+        //tại sao lỗi parse JSON????????????????????????????
+        console.log("Caught Error from Home");
+        console.log(err);
+    })
     //backgroundColor: props?.color == "" ? "#F7BBCF" : props.color
     return (
-        <SafeAreaView style={{backgroundColor: "#F7BBCF"}} flex={1}>
-            <View style={{flexDirection: "row", marginTop: 40, justifyContent: "space-between"}}>
+        <SafeAreaView style={{ backgroundColor: "#F7BBCF" }} flex={1}>
+            <View style={{ flexDirection: "row", marginTop: 40, justifyContent: "space-between" }}>
                 <View />
-                <TouchableOpacity style={{marginRight: 10}} onPress={() => navigate("SettingsNavigator")}>
+                <TouchableOpacity style={{ marginRight: 10 }} onPress={() => navigate("SettingsNavigator")}>
                     <Ionicons name="settings-sharp" size={24} color="white" />
                 </TouchableOpacity>
             </View>
@@ -105,15 +115,15 @@ export default function Home(props)
                 </View>
             </View>
             <Divider width={2} color="grey" inset insetType="middle" style={{ marginVertical: 20 }}/>
-            <View style={{backgroundColor: "white", width: "100vh", height: "50vh", paddingHorizontal: 50, paddingBottom: 400, borderRadius: 25}}>
-                <View style={{flexDirection: "row", justifyContent: "space-between", marginTop: 50}}>
-                    <View style={{flexDirection: "column", justifyContent: "center"}}>
+            <View style={{ backgroundColor: "white", width: "100vh", height: "50vh", paddingHorizontal: 50, paddingBottom: 400, borderRadius: 25}}>
+                <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: 50 }}>
+                    <View style={{ flexDirection: "column", justifyContent: "center"}}>
                         <TouchableOpacity onPress={() => navigate("AddMoney", { username: props.username, banknum: props.banknum, money: money })}>
                             <MaterialCommunityIcons name="cash-plus" size={35} color="black" />
                         </TouchableOpacity>
-                        <Text style={{marginLeft:-10}}>Nạp tiền</Text>
+                        <Text style={{ marginLeft:-10 }}>Nạp tiền</Text>
                     </View>
-                    <View style={{flexDirection: "column", justifyContent: "center"}}>
+                    <View style={{ flexDirection: "column", justifyContent: "center" }}>
                         <TouchableOpacity onPress={() => navigate("WithdrawMoney", { username: props.username, banknum: props.banknum,
                             money: money })}>
                             <MaterialCommunityIcons name="cash-minus" size={35} color="black" />
@@ -125,17 +135,17 @@ export default function Home(props)
                             money: money })}>
                             <MaterialCommunityIcons name="cash-fast" size={35} color="black" />
                         </TouchableOpacity>
-                        <Text style={{marginLeft:-10, fontSize: 10}}>Chuyển tiền</Text>
+                        <Text style={{ marginLeft:-10, fontSize: 10 }}>Chuyển tiền</Text>
                     </View>
                 </View>
-                <View style={{flexDirection: "row", justifyContent: "space-between", marginTop: 50}}>
-                    <View style={{flexDirection: "column", justifyContent: "center" }}>
+                <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: 50 }}>
+                    <View style={{ flexDirection: "column", justifyContent: "center" }}>
                         <TouchableOpacity>
                             <MaterialCommunityIcons name="piggy-bank" size={35} color="black" />
                         </TouchableOpacity>
-                        <Text style={{marginLeft:-10}}>Đầu tư</Text>
+                        <Text style={{ marginLeft:-10 }}>Đầu tư</Text>
                     </View>
-                    <View style={{flexDirection: "column", justifyContent: "center"}}>
+                    <View style={{ flexDirection: "column", justifyContent: "center" }}>
                         <TouchableOpacity onPress={() => navigate("History", { username: props.username, money: money, 
                             banknum: props.banknum, phonenum: props.phonenum })}>
                             <MaterialCommunityIcons name="history" size={35} color="black" />
@@ -161,9 +171,9 @@ export default function Home(props)
                         <TouchableOpacity onPress={() => navigate("Contact")}>
                             <Entypo name="mail" size={25} color="black" />
                         </TouchableOpacity>
-                        <Text style={{marginLeft: -10, marginTop: 5}}>Liên hệ</Text>
+                        <Text style={{ marginLeft: -10, marginTop: 5 }}>Liên hệ</Text>
                     </View>
-                    <View style={{flexDirection: "column", justifyContent: "center" }}>
+                    <View style={{ flexDirection: "column", justifyContent: "center" }}>
                         <TouchableOpacity onPress={() => navigate("Greetings")}>
                             <FontAwesome6 name="door-open" size={35} color="black"/>
                         </TouchableOpacity>

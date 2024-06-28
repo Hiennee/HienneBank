@@ -3,11 +3,12 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Card, Button, Input } from "@rneui/themed";
 import { useState } from "react";
 import { IPAddr } from "../shared/localIP";
+import { StackActions } from "@react-navigation/native";
 
 export default function ChangeNameForm(props)
 {
     //console.log("From changename, ", props.route.params.username)
-    var { navigate, replace } = props.navigation
+    var { navigate } = props.navigation
     var { username, phonenum, banknum } = props.route.params;
     var [ newName, setNewName ] = useState("");
     //console.log(props.navigation.getState().routes.length);
@@ -21,8 +22,16 @@ export default function ChangeNameForm(props)
         function AlertChangeNameSuccess()
         {
             Alert.alert("THÔNG BÁO", `Đổi tên thành công\nTên cũ: ${username}\nTên mới: ${newName}`, [
-                { text: "OK", onPress: () => navigate("LogInSignUp", { screen: "Login" }) }
-            ], {cancelable: false})
+                { text: "OK", onPress: () => {
+                    setNewName("");
+                    //try { navigate("LogIn"); } catch (err) { console.log(err) }
+                    navigate("Greetings"); // tại sao navigate qua Greetings thì từ Greetings qua Login được
+                    //nhưng navigate qua Login thì từ Login không qua Bridge được
+                    //var a = StackActions.pop({ n: 5});
+                    //props.navigation.dispatch(a);
+                    //navigate("LogInSignUp", { screen: "Login" });
+                }}
+            ], { cancelable: false })
         }
         function AlertNewNameAlreadyExist()
         {
@@ -49,6 +58,7 @@ export default function ChangeNameForm(props)
             })
             .then(async (respond) => {
                 //console.log(respond.json())
+                //console.log(await respond.json())
                 if (respond.status == 345) {
                     AlertError();
                 }
@@ -83,8 +93,8 @@ export default function ChangeNameForm(props)
                 </View>
             </Card>
             <View style={{marginTop: 120}}/>
-            <Input placeholder="Nhập tên mới..." keyboardType="ascii-capable" onChangeText={(name) => {setNewName(name)}} 
-                    leftIcon={{ type: "font-awesome", name: "chevron-left" }}/>
+            <Input placeholder="Nhập tên mới..." keyboardType="ascii-capable" onChangeText={ (name) => { setNewName(name.toUpperCase()) } } 
+                    leftIcon={{ type: "font-awesome", name: "chevron-left" }} value={newName}/>
             <View style={{flexDirection: "row", marginTop: 50, alignSelf: "center"}}>
                 <Button title="ĐỔI" disabled={newName == ""} onPress={() => {onSubmitChangeName()}} />
                 <View style={{paddingHorizontal: 30}} />

@@ -17,7 +17,9 @@ export default function ChangeThemeForm(props)
         ], { cancelable: true, onDismiss: () => {} })
 
         function ChangeTheme() {
-            navigate("LogInSignUp", { screen: "Login", params: { color: color } })
+            navigate("Greetings");
+            //navigate("LogInSignUp", { screen: "Login", params: { color: color } });
+            //navigate("LogIn");
         }
     }
 

@@ -7,10 +7,10 @@ import { IPAddr } from "../shared/localIP";
 export default function ChangeAccountNumberForm(props)
 {
     //console.log("From changename, ", props.route.params.username)
-    var { navigate, replace } = props.navigation
+    var { navigate } = props.navigation
     var { username, phonenum, banknum } = props.route.params;
     var [ newBanknum, setNewBanknum ] = useState("");
-    console.log("abc");
+    //console.log("abc");
 
     function onSubmitChangeAccountNumber()
     {
@@ -22,7 +22,12 @@ export default function ChangeAccountNumberForm(props)
         function AlertChangeAccountNumberSuccess()
         {
             Alert.alert("THÔNG BÁO", `Đổi số tài khoản thành công\nSố tài khoản cũ: ${banknum}\nSố tài khoản mới: ${newBanknum}`, [
-                {text: "OK", onPress: () => /*replace("LogInSignUp", {screen: "Login"})*/props.navigation.pop(1)}
+                { text: "OK", onPress: () => {
+                    setNewBanknum("");
+                    navigate("Greetings");
+                    //navigate("LogIn"); 
+                    //replace("LogInSignUp", {screen: "Login"})props.navigation.pop(1)
+                }}
             ], { cancelable: false })
         }
         function AlertAccountNumberAlreadyExist()
@@ -50,6 +55,7 @@ export default function ChangeAccountNumberForm(props)
             })
             .then(async (respond) => {
                 //console.log(respond.json())
+                //console.log(respond);
                 if (respond.status == 345) {
                     AlertError();
                 }

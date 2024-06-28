@@ -1,5 +1,5 @@
-import { createStackNavigator, StackView } from '@react-navigation/stack';
-import { NavigationContainer, StackRouter } from "@react-navigation/native";
+import { createStackNavigator } from '@react-navigation/stack';
+import { NavigationContainer } from "@react-navigation/native";
 
 import Register from "./Register";
 import Greetings from './Greetings';
@@ -23,14 +23,15 @@ import { useEffect } from 'react';
 function LogInSignUpNavigatorScreen()
 {
     //try {console.log("loginsignup", props.route.params.params ?? "") }
+    console.log("Login Signup navigator is called");
     //catch { // khi để try catch ở đây thì LogInSignUpNavigatorScreen trả về View trống?
     const LogInSignUp = createStackNavigator();
     return (
         <LogInSignUp.Navigator
         initialRouteName="Greetings"
         screenOptions={{headerShown: false}}>
-            <LogInSignUp.Screen name="Register" component={Register} />
             <LogInSignUp.Screen name="Greetings" component={Greetings} />
+            <LogInSignUp.Screen name="Register" component={Register} />
             <LogInSignUp.Screen name="Login" component={Login} />
             <LogInSignUp.Screen name="Bridge" component={BridgeNavigatorScreen} />
         </LogInSignUp.Navigator>
@@ -83,7 +84,9 @@ function SettingsNavigatorScreen(prop)
             <SettingsNav.Screen name="ChangeAccountNumber" component={ChangeAccountNumberForm} />
             <SettingsNav.Screen name="ChangePhoneNumber" component={ChangePhoneNumberForm} />
             <SettingsNav.Screen name="ChangeTheme" component={ChangeThemeForm} />
-            <SettingsNav.Screen name="LogInSignUp" component={LogInSignUpNavigatorScreen} />
+            {/* <SettingsNav.Screen name="LogInSignUp" component={LogInSignUpNavigatorScreen} /> */}
+            <SettingsNav.Screen name="LogIn" component={Login} />
+            <SettingsNav.Screen name="Greetings" component={Greetings}/>
         </SettingsNav.Navigator>
     )
 }

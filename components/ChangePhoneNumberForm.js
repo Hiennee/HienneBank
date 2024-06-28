@@ -15,13 +15,18 @@ export default function ChangePhoneNumberForm(props)
     {
         Alert.alert("THÔNG BÁO", `Bạn đã yêu cầu đổi số điện thoại\nSố điện thoại cũ: ${phonenum}\nSố điện thoại mới: ${newPhonenum}\n`, [
             { text: "Hủy", onPress: () => {} },
-            { text: "OK", onPress: () => ChangePhoneNumber()}
+            { text: "OK", onPress: () => ChangePhoneNumber() }
         ])
 
         function AlertChangePhoneNumberSuccess()
         {
             Alert.alert("THÔNG BÁO", `Đổi số điện thoại thành công\nSố điện thoại cũ: ${phonenum}\nSố điện thoại mới: ${newPhonenum}`, [
-                { text: "OK", onPress: () => replace("LogInSignUp", { screen: "Login" }) }
+                { text: "OK", onPress: () => {
+                    setNewPhonenum("");
+                    navigate("Greetings");
+                    //navigate("LogIn");
+                    //replace("LogInSignUp", { screen: "Login" })
+                }}
             ], { cancelable: false })
         }
         function AlertPhoneNumberAlreadyExist()

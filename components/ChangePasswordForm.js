@@ -42,7 +42,12 @@ export default function ChangePasswordForm(props)
         function AlertChangePasswordSuccess()
         {
             Alert.alert("THÔNG BÁO", `Đổi tên thành công\nMật khẩu mới: ${newPassword}`, [
-                { text: "OK", onPress: () => { replace("LogInSignUp", { screen: "Login" }) } }
+                { text: "OK", onPress: () => {
+                    setNewPassword("");
+                    navigate("Greetings");
+                    //navigate("LogIn");
+                    //replace("LogInSignUp", { screen: "Login" })
+                }}
             ], {cancelable: false})
         }
         function AlertError()
