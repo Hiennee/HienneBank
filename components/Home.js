@@ -2,7 +2,7 @@ import { SafeAreaView, Text, View, ScrollView, Alert, TouchableOpacity } from "r
 import { Avatar, Divider, Button } from "@rneui/themed"
 import { MaterialCommunityIcons, FontAwesome, FontAwesome6, Ionicons, Entypo } from '@expo/vector-icons';
 import { useState, useEffect } from "react";
-import { IPAddr } from "../shared/localIP";
+import { IPAddr } from "../shared/IP";
 
 import CurrencyFormatter from "../shared/CurrencyFormatter";
 import * as ImagePicker from "expo-image-picker";
@@ -91,7 +91,7 @@ export default function Home(props)
     })
     //backgroundColor: props?.color == "" ? "#F7BBCF" : props.color
     return (
-        <SafeAreaView style={{ backgroundColor: "#F7BBCF" }} flex={1}>
+        <SafeAreaView style={{ backgroundColor: props.theme }} flex={1}>
             <View style={{ flexDirection: "row", marginTop: 40, justifyContent: "space-between" }}>
                 <View />
                 <TouchableOpacity style={{ marginRight: 10 }} onPress={() => navigate("SettingsNavigator")}>

@@ -2,7 +2,8 @@ import { Alert, View, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Card, Button, Input } from "@rneui/themed";
 import { useState } from "react";
-import { IPAddr } from "../shared/localIP";
+import { IPAddr } from "../shared/IP";
+import { AntDesign } from "@expo/vector-icons";
 
 export default function ChangePasswordForm(props)
 {
@@ -100,10 +101,10 @@ export default function ChangePasswordForm(props)
                 </View>
             </Card>
             <View style={{marginTop: 120}}/>
-            <Input placeholder="Nhập mật khẩu hiện tại..." keyboardType="ascii-capable" secureTextEntry onChangeText={(password) => {setCurrentPassword(password)}} 
-                    leftIcon={{ type: "font-awesome", name: "chevron-left" }}/>
-            <Input placeholder="Nhập mật khẩu mới..." keyboardType="ascii-capable" secureTextEntry onChangeText={(password) => {setNewPassword(password)}} 
-                    leftIcon={{ type: "font-awesome", name: "chevron-left" }}/>
+            <Input placeholder="Nhập mật khẩu hiện tại..." keyboardType="ascii-capable" secureTextEntry value={currentPassword}
+            onChangeText={(password) => {setCurrentPassword(password)}} leftIcon={ <AntDesign name="eyeo" size={24} /> } />
+            <Input placeholder="Nhập mật khẩu mới..." keyboardType="ascii-capable" secureTextEntry value={newPassword}
+            onChangeText={(password) => {setNewPassword(password)}} leftIcon={ <AntDesign name="eyeo" size={24} /> }/>
             <View style={{flexDirection: "row", marginTop: 50, alignSelf: "center"}}>
                 <Button title="ĐỔI" disabled={newPassword == ""} onPress={() => onSubmitChangePassword()} />
                 <View style={{paddingHorizontal: 30}} />

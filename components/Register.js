@@ -1,8 +1,8 @@
-import { Input, Button } from '@rneui/themed';
-import { Text, View, Alert, SafeAreaView } from 'react-native';
-import {  useState } from 'react';
-import { IPAddr } from '../shared/localIP';
-import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Input, Button } from "@rneui/themed";
+import { Text, View, Alert, SafeAreaView } from "react-native";
+import { useState } from "react";
+import { IPAddr } from "../shared/IP";
+import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
 
 export default function Register(props)
 {
@@ -63,7 +63,8 @@ export default function Register(props)
                 username: username.trim().toUpperCase(),
                 banknum: banknum.toString(),
                 phonenum: phonenum.toString(),
-                password: password
+                password: password,
+                theme: "pink",
             })
         })
         .then((respond) => {
@@ -87,9 +88,9 @@ export default function Register(props)
             <Text style ={{ fontSize: 40, textAlign: "center", paddingTop: 50, paddingBottom: 20 }}>HienneBank</Text>
             <Text style ={{ fontSize: 40, textAlign: "center", paddingBottom: 80 }}>Đăng ký tài khoản</Text>
             <Input placeholder='Tên đăng nhập...' value={username} onChangeText={(username) => { setUsername(username.toUpperCase()) }} 
-                leftIcon={<AntDesign name="user" size={24}/>}/>
-            <Input placeholder='Số tài khoản...' keyboardType="numeric" leftIcon={<MaterialCommunityIcons name="numeric" size={24}/>}
-                onChangeText={(banknum) => { 
+                leftIcon={ <AntDesign name="user" size={24}/> }/>
+            <Input placeholder='Số tài khoản...' value={banknum} keyboardType="numeric" 
+            leftIcon={ <MaterialCommunityIcons name="numeric" size={24}/> } onChangeText={(banknum) => { 
                     try { // nếu keyboard type là 
                         setBanknum(Number(banknum))
                         if (banknum.length >= 3 && banknum.length <= 12) {
@@ -109,8 +110,8 @@ export default function Register(props)
             }} />
             {isValidBanknum ? <View /> : 
             <Text children="Số tài khoản phải từ 3-12 số" style={{ marginLeft: 15, marginTop: -20, color: "red", fontSize: 12 }}/>}
-            <Input placeholder='Số điện thoại...' keyboardType="numeric" leftIcon={<AntDesign name="phone" size={24} />}
-            onChangeText={(phonenum) => { 
+            <Input placeholder='Số điện thoại...' keyboardType="numeric" value={phonenum}
+            leftIcon={ <AntDesign name="phone" size={24} /> } onChangeText={(phonenum) => { 
                 try {
                     setPhonenum(Number(phonenum))
                     if (phonenum.length === 10 && phonenum.startsWith("0")) {
@@ -129,13 +130,13 @@ export default function Register(props)
              }} />
             {isValidPhonenum ? <View /> : 
             <Text children="Số điện thoải phải gồm 10 số, bắt đầu từ 0" style={{ marginLeft: 15, marginTop: -20, color: "red", fontSize: 12 }}/>}
-            <Input placeholder='Mật khẩu...' secureTextEntry={true} onChangeText={(txt) => { setPassword(txt) }} 
-                leftIcon={<AntDesign name="eyeo" size={24} /> } />
+            <Input placeholder='Mật khẩu...' secureTextEntry={true} value={password} 
+            leftIcon={ <AntDesign name="eyeo" size={24} /> } onChangeText={(txt) => { setPassword(txt) }} />
             <View style={{ flexDirection:"row", justifyContent:"center", marginTop: 80 }}>
                 <Button title="ĐĂNG KÝ" disabled={ username == "" || password == "" || !isValidBanknum || !isValidPhonenum } 
                     onPress={() => { onSubmitRegister(username, banknum, phonenum, password); }} />
                 <View style={{ paddingHorizontal:10 }} />
-                <Button title="HỦY" onPress={() => navigate("Greetings")} />
+                <Button title="HỦY" color="warning" onPress={() => navigate("Greetings")} />
             </View>
         </SafeAreaView>
     )

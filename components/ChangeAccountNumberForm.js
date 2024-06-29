@@ -2,7 +2,7 @@ import { Alert, View, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Card, Button, Input } from "@rneui/themed";
 import { useState } from "react";
-import { IPAddr } from "../shared/localIP";
+import { IPAddr } from "../shared/IP";
 
 export default function ChangeAccountNumberForm(props)
 {
@@ -90,8 +90,8 @@ export default function ChangeAccountNumberForm(props)
                 </View>
             </Card>
             <View style={{marginTop: 120}}/>
-            <Input placeholder="Nhập số tài khoản mới..." keyboardType="numeric" onChangeText={(accountNum) => {setNewBanknum(accountNum)}} 
-                    leftIcon={{ type: "font-awesome", name: "chevron-left" }}/>
+            <Input placeholder="Nhập số tài khoản mới..." keyboardType="numeric" value={newBanknum}
+            leftIcon={{ type: "font-awesome", name: "chevron-left" }} onChangeText={(accountNum) => {setNewBanknum(accountNum)}} />
             <View style={{flexDirection: "row", marginTop: 50, alignSelf: "center"}}>
                 <Button title="ĐỔI" disabled={newBanknum == ""} onPress={() => onSubmitChangeAccountNumber()} />
                 <View style={{paddingHorizontal: 30}} />

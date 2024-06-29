@@ -1,12 +1,14 @@
-import { View, Text, Button, Alert } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { useState } from 'react';
-import { Input } from '@rneui/themed';
-import { IPAddr } from '../shared/localIP';
-import { AntDesign } from '@expo/vector-icons';
+import { View, Text, Alert } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useState } from "react";
+import { Input, Button } from "@rneui/themed";
+import { IPAddr } from "../shared/IP";
+import { AntDesign } from "@expo/vector-icons";
 //import { fetch } from "react-native-ssl-pinning"
 export default function Login(props)
 {
+
+    console.log("Login state:", props.navigation.getState());
     var [ username, setUsername ] = useState('');
     var [ password, setPassword ] = useState('');
 
@@ -35,9 +37,9 @@ export default function Login(props)
             setUsername("");
             setPassword("");
             navigate("Bridge", { username: username.trim().toUpperCase(), money: json.money, 
-                banknum: json.banknum, phonenum: json.phonenum, password: password, /*color: color*/ }) 
+                banknum: json.banknum, phonenum: json.phonenum, password: password, theme: json.theme /*color: color*/ }) 
             }}
-        ], {cancelable: true} )
+        ], { cancelable: true } )
     }
 
     const onSubmitLogin = (username, password) => {
@@ -58,7 +60,7 @@ export default function Login(props)
             else if (respond.status == 234) {
                 //AlertLoginSuccess(await respond.json())
                 var json = await respond.json();
-                console.log(json);
+                //console.log(json);
                 //console.log(navigate)
                 //console.log("hello");
                 //navigate("Bridge", { username: username, money: json.money, banknum: json.banknum, phonenum: json.phonenum })
@@ -71,16 +73,16 @@ export default function Login(props)
         })
     }
     return (
-        <SafeAreaView style={{backgroundColor: "#e7e4e42d", height: "100vh", width: "100vh"}}>
-            <Text style={{textAlign: "center", fontWeight: "bold", justifyContent: "center", fontSize: 50, paddingTop: 150, paddingBottom: 30}}>Đăng nhập</Text>
+        <SafeAreaView style={{ backgroundColor: "#e7e4e42d", height: "100vh", width: "100vh" }}>
+            <Text style={{ textAlign: "center", fontWeight: "bold", justifyContent: "center", fontSize: 50, paddingTop: 150, paddingBottom: 30 }}>Đăng nhập</Text>
             <Input placeholder='Tên người dùng...' value={username.toUpperCase()} onChangeText={(txt) => { setUsername(txt) } } 
-                leftIcon={<AntDesign name="user" size={24}/>}/>
-            <Input placeholder='Mật khẩu...' secureTextEntry={true} onChangeText={(txt) => { setPassword(txt) }} 
-                leftIcon={<AntDesign name="eyeo" size={24}/>} />
+                leftIcon={ <AntDesign name="user" size={24}/> }/>
+            <Input placeholder='Mật khẩu...' value={password} secureTextEntry={true} onChangeText={(txt) => { setPassword(txt) }} 
+                leftIcon={ <AntDesign name="eyeo" size={24}/> } />
             <View style={{ flexDirection:"row", justifyContent:"center", marginTop: 70 }}>
                 <Button title="ĐĂNG NHẬP" disabled={username == "" || password == ""} onPress={() => { onSubmitLogin(username, password); }}></Button>
                 <View style={{ paddingHorizontal: 20 }}/>
-                <Button title="QUAY LẠI" onPress={() => navigate("Greetings")}></Button>
+                <Button title="QUAY LẠI" color="warning" onPress={() => navigate("Greetings")}></Button>
             </View>
         </SafeAreaView>
     )

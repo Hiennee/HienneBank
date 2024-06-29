@@ -44,7 +44,7 @@ app.get("/users/:username", async (req, res) => {
 })
 
 app.post("/register", async (req, res) => {
-    var { username, banknum, phonenum, password } = req.body;
+    var { username, banknum, phonenum, password, theme } = req.body;
     //console.log("From backend check:", Object.prototype.toString.call(username), Object.prototype.toString.call(banknum), Object.prototype.toString.call(phonenum), Object.prototype.toString.call(password))
     if (await userCol.findOne({ username: username }) != null || await userCol.findOne({ banknum: banknum }) != null ||
         await userCol.findOne({ phonenum: phonenum }) != null) {
@@ -55,9 +55,10 @@ app.post("/register", async (req, res) => {
     var result = await userCol.insertOne({
         username: username,
         banknum: banknum,
-        phonenum: phonenum,
+        phonenum: "0" + phonenum,
         password: password,
         money: 50000,
+        theme: theme,
         avatarUri: "",
     })
     console.log("Successfully registered new user, unique ID from MongoDB:", result.insertedId);
@@ -232,40 +233,55 @@ app.put("/update/users/phonenum/:username/", async (req, res) =>
 })
 
 app.put("/update/users/avatar/:username/", async (req, res) => 
-    {
-        var { avatarUri } = req.body;
-        console.log("avatar:", avatarUri);
-        if (await userCol.findOne({ username: req.params.username.toUpperCase() }) == null) {
-            res.status(345).send({ message: "Có gì đó sai sai" });
-            console.log("Có gì đó sai sai");
-            return;
-        }
-        userCol.updateOne({ username: req.params.username.toUpperCase() }, {
-            $set: { avatarUri: avatarUri }
-        })
-        .then(() => {
-            res.status(234).send({ message: "Edit avatar successfully!" });
-            console.log("Edit avatar successfully!");
-        })
-        .catch((err) => res.status(345).send({ message: err}));
-        
-        
-        // var result = await (await db).query(`SELECT * FROM USER WHERE username = '${req.params.username.toUpperCase()}'`)
-        // if (result[0].length == 0) {
-        //     res.status(345).send({ message: "Username doesn't exist" });
-        //     console.log("Username doesn't exist");
-        //     return;
-        // }
-        // var result = await (await db).query(`SELECT * FROM USER WHERE phonenum = '${newPhonenum}'`)
-        // if (result[0].length > 0) {
-        //     res.status(346).send({ message: `Phone number ${newPhonenum} has already been taken` });
-        //     console.log(`Phone number ${newPhonenum} has already been taken`);
-        //     return;
-        // }
-        // var result = await (await db).query(`UPDATE USER SET phonenum = '${newPhonenum}' where username = '${req.params.username.toUpperCase()}'`)
-        // res.status(234).send({ message: `Updated user ${req.params.username.toUpperCase()}'s phone number to ${newPhonenum}` })
-        // console.log(`Updated user ${req.params.username.toUpperCase()}'s phone number to ${newPhonenum}`)
+{
+    var { avatarUri } = req.body;
+    console.log("avatar:", avatarUri);
+    if (await userCol.findOne({ username: req.params.username.toUpperCase() }) == null) {
+        res.status(345).send({ message: "Có gì đó sai sai" });
+        console.log("Có gì đó sai sai");
+        return;
+    }
+    userCol.updateOne({ username: req.params.username.toUpperCase() }, {
+        $set: { avatarUri: avatarUri }
     })
+    .then(() => {
+        res.status(234).send({ message: "Edit avatar successfully!" });
+        console.log("Edit avatar successfully!");
+    })
+    .catch((err) => res.status(345).send({ message: err}));
+    
+    
+    // var result = await (await db).query(`SELECT * FROM USER WHERE username = '${req.params.username.toUpperCase()}'`)
+    // if (result[0].length == 0) {
+    //     res.status(345).send({ message: "Username doesn't exist" });
+    //     console.log("Username doesn't exist");
+    //     return;
+    // }
+    // var result = await (await db).query(`SELECT * FROM USER WHERE phonenum = '${newPhonenum}'`)
+    // if (result[0].length > 0) {
+    //     res.status(346).send({ message: `Phone number ${newPhonenum} has already been taken` });
+    //     console.log(`Phone number ${newPhonenum} has already been taken`);
+    //     return;
+    // }
+    // var result = await (await db).query(`UPDATE USER SET phonenum = '${newPhonenum}' where username = '${req.params.username.toUpperCase()}'`)
+    // res.status(234).send({ message: `Updated user ${req.params.username.toUpperCase()}'s phone number to ${newPhonenum}` })
+    // console.log(`Updated user ${req.params.username.toUpperCase()}'s phone number to ${newPhonenum}`)
+})
+
+app.put("/update/users/theme/:username", async (req, res) => 
+{
+    var { theme } = req.body;
+    if (await userCol.findOne({ username: req.params.username.toUpperCase() }) == null) {
+        res.status(345).send({ message: "Có gì đó sai sai" });
+        console.log("Có gì đó sai sai");
+        return;
+    }
+    await userCol.updateOne({ username: req.params.username.toUpperCase() }, {
+        $set: { theme: theme }
+    })
+    res.status(234).send({message: `Updated user ${req.params.username.toUpperCase()}'s theme to ${theme}`})
+    console.log(`Updated user ${req.params.username.toUpperCase()}'s theme to ${theme}`)
+})
 
 app.delete("/delete/users", async (req, res) => {
     await userCol.deleteMany({}).then(() => {

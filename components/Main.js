@@ -19,6 +19,7 @@ import ChangePhoneNumberForm from './ChangePhoneNumberForm';
 import ChangeThemeForm from './ChangeThemeForm';
 import Contact from './Contact';
 import { useEffect } from 'react';
+// import asd from './asd';
 
 function LogInSignUpNavigatorScreen()
 {
@@ -34,28 +35,63 @@ function LogInSignUpNavigatorScreen()
             <LogInSignUp.Screen name="Register" component={Register} />
             <LogInSignUp.Screen name="Login" component={Login} />
             <LogInSignUp.Screen name="Bridge" component={BridgeNavigatorScreen} />
+            {/* <LogInSignUp.Screen name="asd" component={asd} /> */}
         </LogInSignUp.Navigator>
     ) //}
 }
 
 function BridgeNavigatorScreen(prop)
 {
+    console.log("from bridge", prop);
     // trùng tên props nên đổi thành prop
     //console.log(props.route)
     //console.log(props.route.params.username)
     /*initialParams={{username: props.route.params.username}}*/
+    // if (prop.route.params == null) {
+    //     prop.route.params = JSON.parse(`{"params": {"banknum": "15467", "money": 50000, "password": "1", "phonenum": "6497", "username": "AA"}}`);
     
+    // }
+    // prop = JSON.parse(`navigation": "route": {"key": "Bridge-bQX_sOqU0PTs0YBv1MeK-", "name": "Bridge", "params": {"banknum": "15467", "money": 50000, "password": "1", "phonenum": "6497", "username": "AA"}, "path": undefined}}`);
     const Bridge = createStackNavigator();
     return (
         <Bridge.Navigator
         initialRouteName="Main"
-        screenOptions={{headerShown: false}}>
+        screenOptions={{ headerShown: false }}>
             <Bridge.Screen name="Main">
                 {(props) => <MainNavigatorScreen {...props} username={prop.route.params.username} money={prop.route.params.money} 
                     banknum={prop.route.params.banknum} phonenum={prop.route.params.phonenum} password={prop.route.params.password}
-                    color={prop.route.params.color}/>}
+                    theme={prop.route.params.theme}/>}
             </Bridge.Screen>
         </Bridge.Navigator>
+    )
+}
+
+function MainNavigatorScreen(prop)
+{
+    //console.log("from main nav", prop)
+    //console.log(props.money)
+    //prop.navigation.replace("Home");
+    const MainNavigator = createStackNavigator();
+    return (
+        <MainNavigator.Navigator
+        initialRouteName="Home"
+        screenOptions={{ headerShown: false }}>
+            <MainNavigator.Screen name="Home">
+                { (props) => <Home {...props} username={prop.username} money={prop.money} banknum={prop.banknum} 
+                phonenum={prop.phonenum} password={prop.password} theme={prop.theme} /> }
+            </MainNavigator.Screen>
+            <MainNavigator.Screen name="AddMoney" component={AddMoney} />
+            <MainNavigator.Screen name="WithdrawMoney" component={WithdrawMoney} />
+            <MainNavigator.Screen name="TransferMoney" component={TransferMoney} />
+            <MainNavigator.Screen name="History" component={History} />
+            <MainNavigator.Screen name="FAQ" component={FAQ} />
+            <MainNavigator.Screen name="Information" component={Information} />
+            <MainNavigator.Screen name="Contact" component={Contact} />
+            <MainNavigator.Screen name="SettingsNavigator">
+                {(props) => <SettingsNavigatorScreen {...props} username={prop.username} banknum={prop.banknum}
+                phonenum={prop.phonenum} password={prop.password} theme={prop.theme}/>}
+            </MainNavigator.Screen>
+        </MainNavigator.Navigator>
     )
 }
 
@@ -63,7 +99,7 @@ function SettingsNavigatorScreen(prop)
 {
     //khi gọi settings, ở lần gọi thứ 1, khi bấm vào settings sẽ render n lần (n console log),
     //nhưng back ra khỏi screen gọi settings n+1 lần (n+1 console log),
-
+    console.log("Settingsnav:", prop);
     var initDate = new Date();
     useEffect(() => {
         var renderedSuccessfullyTime = new Date();
@@ -77,7 +113,7 @@ function SettingsNavigatorScreen(prop)
         screenOptions={{ headerShown: false }}>
             <SettingsNav.Screen name="SettingsScreen">
                 {(props) => <Settings {...props} username={prop.username} phonenum={prop.phonenum}
-                banknum={prop.banknum} password={prop.password}/>}
+                banknum={prop.banknum} password={prop.password} theme={prop.theme}/>}
             </SettingsNav.Screen>
             <SettingsNav.Screen name="ChangeName" component={ChangeNameForm} />
             <SettingsNav.Screen name="ChangePassword" component={ChangePasswordForm} />
@@ -87,36 +123,8 @@ function SettingsNavigatorScreen(prop)
             {/* <SettingsNav.Screen name="LogInSignUp" component={LogInSignUpNavigatorScreen} /> */}
             <SettingsNav.Screen name="LogIn" component={Login} />
             <SettingsNav.Screen name="Greetings" component={Greetings}/>
+            {/* <SettingsNav.Screen name="asd" component={asd} /> */}
         </SettingsNav.Navigator>
-    )
-}
-
-function MainNavigatorScreen(prop)
-{
-    //console.log("from main nav", prop)
-    //console.log(props.money)
-    //prop.navigation.replace("Home");
-    const MainNavigator = createStackNavigator();
-    return (
-        <MainNavigator.Navigator
-        initialRouteName="Home"
-        screenOptions={{headerShown: false}}>
-            <MainNavigator.Screen name="Home">
-                {(props) => <Home {...props} username={prop.username} money={prop.money} banknum={prop.banknum} 
-                phonenum={prop.phonenum} password={prop.password} color={prop.color} />}
-            </MainNavigator.Screen>
-            <MainNavigator.Screen name="AddMoney" component={AddMoney} />
-            <MainNavigator.Screen name="WithdrawMoney" component={WithdrawMoney} />
-            <MainNavigator.Screen name="TransferMoney" component={TransferMoney} />
-            <MainNavigator.Screen name="History" component={History} />
-            <MainNavigator.Screen name="FAQ" component={FAQ} />
-            <MainNavigator.Screen name="Information" component={Information} />
-            <MainNavigator.Screen name="Contact" component={Contact} />
-            <MainNavigator.Screen name="SettingsNavigator">
-                {(props) => <SettingsNavigatorScreen {...props} username={prop.username} banknum={prop.banknum}
-                phonenum={prop.phonenum} password={prop.password}/>}
-            </MainNavigator.Screen>
-        </MainNavigator.Navigator>
     )
 }
 

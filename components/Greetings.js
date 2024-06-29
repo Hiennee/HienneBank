@@ -1,6 +1,7 @@
-import { View, Text, SafeAreaView, Button } from 'react-native'
+import { View, Text, SafeAreaView } from "react-native";
+import { Button } from "@rneui/themed";
 //import { fetch } from 'react-native-ssl-pinning'
-import { IPAddr } from '../shared/localIP'
+import { IPAddr } from '../shared/IP'
 export default function Greetings(props)
 {
     const { navigate } = props.navigation
@@ -10,7 +11,7 @@ export default function Greetings(props)
             <Text style={{ fontSize: 30, fontWeight:"light", textAlign: "center", paddingTop: 20 }}>Ứng dụng ngân hàng</Text>
             <Text style={{ fontSize: 30, fontWeight:"light", textAlign: "center", marginBottom: 50 }}>hàng đầu Quận 8</Text>
             <View style ={{ justifyContent: "center", marginTop: 80 }}>
-                <Button title = "Đăng ký" style = {{ backgroundColor: "orange" }} onPress={() => navigate("Register")}/>
+                <Button title = "Đăng ký" style = {{ backgroundColor: "orange" }} color="warning" onPress={() => navigate("Register")}/>
                 <View style ={{ marginVertical: 10 }}/>
                 <Button title = "Đăng nhập" style = {{ backgroundColor: "yellow" }} onPress={() => navigate("Login")}/>
             </View>

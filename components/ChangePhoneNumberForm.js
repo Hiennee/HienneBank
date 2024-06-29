@@ -2,7 +2,8 @@ import { Alert, View, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Card, Button, Input } from "@rneui/themed";
 import { useState } from "react";
-import { IPAddr } from "../shared/localIP";
+import { IPAddr } from "../shared/IP";
+import { AntDesign } from "@expo/vector-icons";
 
 export default function ChangePhoneNumberForm(props)
 {
@@ -29,6 +30,7 @@ export default function ChangePhoneNumberForm(props)
                 }}
             ], { cancelable: false })
         }
+        
         function AlertPhoneNumberAlreadyExist()
         {
             Alert.alert("THÔNG BÁO", `Số điện thoại ${newPhonenum} đã được sử dụng, vui lòng chọn số điện thoại khác`, [
@@ -88,8 +90,8 @@ export default function ChangePhoneNumberForm(props)
                 </View>
             </Card>
             <View style={{ marginTop: 120 }}/>
-            <Input placeholder="Nhập số điện thoại mới..." keyboardType="numeric" onChangeText={ (phoneNum) => {setNewPhonenum(phoneNum) }} 
-                    leftIcon={{ type: "font-awesome", name: "chevron-left" }}/>
+            <Input placeholder="Nhập số điện thoại mới..." keyboardType="numeric" value={newPhonenum}
+            onChangeText={ (phoneNum) => {setNewPhonenum(phoneNum) }} leftIcon={ <AntDesign name="phone" size={24} /> }/>
             <View style={{ flexDirection: "row", marginTop: 50, alignSelf: "center" }}>
                 <Button title="ĐỔI" disabled={ newPhonenum == "" } onPress={() => onSubmitChangePhoneNumber()} />
                 <View style={{ paddingHorizontal: 30 }} />

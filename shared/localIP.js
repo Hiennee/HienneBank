@@ -1,1 +1,0 @@
-export const IPAddr = "https://hiennebank.onrender.com/"

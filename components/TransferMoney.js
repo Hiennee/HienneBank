@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { View, Text, Alert, Modal } from 'react-native'
 import { Input, Button, Card } from '@rneui/themed'
-import { IPAddr } from '../shared/localIP';
+import { IPAddr } from '../shared/IP';
 import { AntDesign, MaterialIcons, FontAwesome6 } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 

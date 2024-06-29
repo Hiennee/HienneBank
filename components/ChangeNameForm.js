@@ -2,8 +2,9 @@ import { Alert, View, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Card, Button, Input } from "@rneui/themed";
 import { useState } from "react";
-import { IPAddr } from "../shared/localIP";
-import { StackActions } from "@react-navigation/native";
+import { IPAddr } from "../shared/IP";
+import { AntDesign } from "@expo/vector-icons";
+//import { StackActions } from "@react-navigation/native";
 
 export default function ChangeNameForm(props)
 {
@@ -93,12 +94,13 @@ export default function ChangeNameForm(props)
                 </View>
             </Card>
             <View style={{marginTop: 120}}/>
-            <Input placeholder="Nhập tên mới..." keyboardType="ascii-capable" onChangeText={ (name) => { setNewName(name.toUpperCase()) } } 
-                    leftIcon={{ type: "font-awesome", name: "chevron-left" }} value={newName}/>
+            <Input placeholder="Nhập tên mới..." keyboardType="ascii-capable" value={newName}
+            onChangeText={ (name) => { setNewName(name.toUpperCase()) }} leftIcon={ <AntDesign name="user" size={24}/> } />
             <View style={{flexDirection: "row", marginTop: 50, alignSelf: "center"}}>
                 <Button title="ĐỔI" disabled={newName == ""} onPress={() => {onSubmitChangeName()}} />
                 <View style={{paddingHorizontal: 30}} />
                 <Button title="HỦY" color="#E95552" onPress={() => {navigate("SettingsScreen")}}/>
+                {/* <Button title="asd" onPress={() => navigate("asd")} /> */}
             </View>
         </SafeAreaView>
     )

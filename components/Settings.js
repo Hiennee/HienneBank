@@ -3,14 +3,16 @@ import { Card, Input, Button } from '@rneui/themed';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { FlatList } from 'react-native-gesture-handler';
 import { useState } from 'react';
-import { AntDesign, MaterialIcons, Ionicons } from '@expo/vector-icons';
-import { IPAddr } from '../shared/localIP';
+import { AntDesign, MaterialIcons, Ionicons, FontAwesome } from '@expo/vector-icons';
+import { IPAddr } from '../shared/IP';
 
 export default function Settings(props)
 {
     //console.log(props)
     //console.log(props.username)
-    var { navigate } = props.navigation
+    var { navigate } = props.navigation;
+    console.log("Settings:", props)
+    console.log(props.theme)
     //console.log(props.navigation.state.routes.length);
     var SettingsOptions = [
         {
@@ -45,9 +47,9 @@ export default function Settings(props)
         {
             option: "Thay đổi màu chủ đạo",
             option_type: "Theme change",
-            defaultValue: "",
+            defaultValue: <FontAwesome name="circle" size={24} color={ props.theme } />,
             icon: <Ionicons name="color-palette-outline" size={24} color="black" />,
-            action: () => {}//navigate("ChangeTheme", { username: props.username, phonenum: props.phonenum, banknum: props.banknum })
+            action: () => navigate("ChangeTheme", { username: props.username, phonenum: props.phonenum, banknum: props.banknum })
         }
     ]
     return (

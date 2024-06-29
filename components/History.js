@@ -1,6 +1,6 @@
 import { SafeAreaView, View, Text, FlatList, Modal } from "react-native";
 import { Card, ListItem, Button } from '@rneui/themed'
-import { IPAddr } from "../shared/localIP";
+import { IPAddr } from "../shared/IP";
 import { useState, useEffect } from "react"
 import { MaterialCommunityIcons, AntDesign, Ionicons } from '@expo/vector-icons';
 import { ScrollView } from 'react-native-virtualized-view'

@@ -1,6 +1,6 @@
 import { ActivityIndicator, View, Alert } from 'react-native';
 import { useState } from 'react';
-import { IPAddr } from './shared/localIP';
+import { IPAddr } from './shared/IP';
 import { Text } from '@rneui/themed';
 
 import Main from './components/Main';
