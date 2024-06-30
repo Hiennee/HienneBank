@@ -16,6 +16,33 @@ export default function Login(props)
     //var { color } = props.route.params;
     console.log("Nav State: ", props.navigation.getState());
 
+    const LogOut = () => 
+    {
+        function AlertError()
+        {
+            Alert.alert("THÔNG BÁO", "Có lỗi không xác định khi đăng xuất, vui lòng thử lại", [
+                { text: "OK", onPress: () => {} }
+            ], { cancelable: true, onDismiss: () => {} })
+        }
+        function AlertSuccessLogOut()
+        {
+            Alert.alert("THÔNG BÁO", `Đăng xuất khỏi tài khoản ${username.trim().toUpperCase()} thành công`, [
+                { text: "OK", onPress: () => { } }
+            ], { cancelable: false })
+        }
+
+        fetch(IPAddr + `logout/${username.trim().toUpperCase()}`, {
+            method: "GET",
+        }).then((respond) => {
+            if (respond.status == 345 || respond.status == 346) {
+                AlertError();
+            }
+            else if (respond.status == 234) {
+                AlertSuccessLogOut();
+            }
+        })
+    }
+
     const AlertLoginFailed = () =>
     {
         Alert.alert("THÔNG BÁO", "Sai tên người dùng hoặc mật khẩu",
@@ -26,6 +53,13 @@ export default function Login(props)
                 {cancelable: true})},
             { text: "OK", onPress: () => navigate("Login") }
         ], { cancelable: true })
+    }
+
+    const AlertAlreadyLoggedIn = () =>
+    {
+        Alert.alert("THÔNG BÁO", "Tài khoản đã được đăng nhập ở nơi khác hoặc ứng dụng đã thoát không đúng cách\nĐăng xuất khỏi tất cả thiết bị", [
+            { text: "Đăng xuất", onPress: () => LogOut() }
+        ], { cancelable: false })
     }
 
     const AlertLoginSuccess = (json) =>
@@ -56,6 +90,9 @@ export default function Login(props)
             //console.log(respond.status)
             if (respond.status == 345) {
                 AlertLoginFailed();
+            }
+            else if (respond.status == 346) {
+                AlertAlreadyLoggedIn();
             }
             else if (respond.status == 234) {
                 //AlertLoginSuccess(await respond.json())

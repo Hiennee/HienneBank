@@ -60,6 +60,7 @@ app.post("/register", async (req, res) => {
         money: 50000,
         theme: theme,
         avatarUri: "",
+        isLoggedIn: false,
     })
     console.log("Successfully registered new user, unique ID from MongoDB:", result.insertedId);
     res.status(234).send({ message: "Successfully registered new user, unique ID from MongoDB:" + result.insertedId })
@@ -84,7 +85,14 @@ app.post("/login", async (req, res) => {
         console.log("Invalid login attempt");
         return;
     }
+    if (result.isLoggedIn == true) {
+        res.status(346).send({ message: "User already logged in from another device" });
+        return;
+    }
     res.status(234).send(result);
+    userCol.updateOne({ username: username }, {
+        $set: { isLoggedIn: true }
+    })
     console.log(result);
     // var result = await (await db).query(`SELECT * FROM USER WHERE username = '${username}' and password = '${password}'`);
     // if (result[0].length == 0) {
@@ -94,6 +102,22 @@ app.post("/login", async (req, res) => {
     // }
     // res.status(234).send(result[0].at(0));
     // console.log(result[0].at(0));
+})
+
+app.get("/logout/:username", async (req, res) => {
+    var result = await userCol.findOne({ username: req.params.username });
+    if (result == null) {
+        res.status(345).send({ message: "Có gì đó sai sai"});
+        return;
+    }
+    if (result.isLoggedIn == false) {
+        res.status(346).send({ message: "Already logged out"});
+        return;
+    }
+    userCol.updateOne(result, {
+        $set: { isLoggedIn: false }
+    })
+    res.status(234).send({ message: "Logged out" });
 })
 
 app.put("/update/users/username/:username/", async (req, res) => 

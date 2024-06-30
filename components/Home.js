@@ -1,4 +1,4 @@
-import { SafeAreaView, Text, View, ScrollView, Alert, TouchableOpacity } from "react-native"
+import { SafeAreaView, Text, View, Alert, TouchableOpacity, AppState } from "react-native"
 import { Avatar, Divider, Button } from "@rneui/themed"
 import { MaterialCommunityIcons, FontAwesome, FontAwesome6, Ionicons, Entypo } from '@expo/vector-icons';
 import { useState, useEffect } from "react";
@@ -9,6 +9,8 @@ import * as ImagePicker from "expo-image-picker";
 
 export default function Home(props)
 {
+    //App state
+    console.log("App state:", AppState);
     var [toggleCameraGallery, setToggleCameraGallery] = useState(false);
     var [avatar, setAvatar] = useState("");
     //setAvatar(props.avatarUri);
@@ -17,7 +19,37 @@ export default function Home(props)
     useEffect(() => {
         var renderedSuccessfullyTime = new Date();
         console.log("Delta time from Home: ", renderedSuccessfullyTime - initDate + " ms");
+        if (AppState.currentState != "active") {
+            LogOut();
+        }
     }, [])
+
+    function LogOut()
+    {
+        function AlertError()
+        {
+            Alert.alert("THÔNG BÁO", "Có lỗi không xác định khi đăng xuất, vui lòng thử lại", [
+                { text: "OK", onPress: () => {} }
+            ], { cancelable: true, onDismiss: () => {} })
+        }
+        function AlertSuccessLogOut()
+        {
+            Alert.alert("THÔNG BÁO", `Đăng xuất khỏi tài khoản ${props.username} thành công`, [
+                { text: "OK", onPress: () => { navigate("Greetings") } }
+            ], { cancelable: false })
+        }
+
+        fetch(IPAddr + `logout/${props.username}`, {
+            method: "GET",
+        }).then((respond) => {
+            if (respond.status == 345 || respond.status == 346) {
+                AlertError();
+            }
+            else if (respond.status == 234) {
+                AlertSuccessLogOut();
+            }
+        })
+    }
 
     function ChangeAvatar(uri)
     {
@@ -174,7 +206,7 @@ export default function Home(props)
                         <Text style={{ marginLeft: -10, marginTop: 5 }}>Liên hệ</Text>
                     </View>
                     <View style={{ flexDirection: "column", justifyContent: "center" }}>
-                        <TouchableOpacity onPress={() => navigate("Greetings")}>
+                        <TouchableOpacity onPress={() => LogOut()}>
                             <FontAwesome6 name="door-open" size={35} color="black"/>
                         </TouchableOpacity>
                         <Text>Thoát</Text>
