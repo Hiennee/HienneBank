@@ -5,6 +5,11 @@
     "version": "1.0.0",
     "android": {
       "package": "com.hihienne.FinalProject"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "cadaf03d-d8bd-4c8e-b4e0-8d7506103a5a"
+      }
     }
   },
   "name": "FinalProject"
