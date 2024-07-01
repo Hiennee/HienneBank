@@ -52,6 +52,13 @@ export default function AddMoney(props) {
             })
         }
     }
+
+    const AlertInvalidMoney = () => {
+        Alert.alert("Thông báo", "Số tiền phải lớn hơn 1.000đ", [
+            { text: "OK" }
+        ], { cancelable: true })
+    }
+
     const AlertAddMoneyFailed = () => {
         Alert.alert("Thông báo", "Xảy ra lỗi khi nạp tiền, vui lòng thử lại", [
             {text: "OK", onPress: () => {}}
@@ -60,6 +67,10 @@ export default function AddMoney(props) {
 
     function onSubmitAddMoney(username, source, money, date)
     {
+        if (money < 1000) {
+            AlertInvalidMoney();
+            return;
+        }
         //console.log("date inside func", date);
         fetch(IPAddr + "money/add", {
             method: "POST",
@@ -79,6 +90,7 @@ export default function AddMoney(props) {
             //console.log(respond.json());
             //AlertAddMoneySuccess();
             setShowSuccessModal(true);
+            Notify();
         })
         .catch((err) => AlertAddMoneyFailed())
     }
@@ -122,7 +134,7 @@ export default function AddMoney(props) {
                     // o day ne cuu'
                     //console.log("after ", date)
                     onSubmitAddMoney(props.route.params.username, moneySource, moneyToAdd, date);
-                    Notify();
+                    //Notify();
                 }} />
                 <View style={{paddingHorizontal: 30}} />
                 <Button title="HỦY" color="#E95552" onPress={() => {

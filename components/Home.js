@@ -172,7 +172,11 @@ export default function Home(props)
                 </View>
                 <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: 50 }}>
                     <View style={{ flexDirection: "column", justifyContent: "center" }}>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={() => {
+                            Alert.alert("THÔNG BÁO", "Tính năng đang phát triển", [
+                                { text: "Quay lại" }
+                            ], { cancelable: true })
+                        }}>
                             <MaterialCommunityIcons name="piggy-bank" size={35} color="black" />
                         </TouchableOpacity>
                         <Text style={{ marginLeft:-10 }}>Đầu tư</Text>

@@ -51,6 +51,13 @@ export default function WithdrawMoney(props) {
             {text: "OK", onPress: () => {}}
         ], {cancelable: true})
     }
+
+    const AlertInvalidMoney = () => {
+        Alert.alert("Thông báo", "Số tiền phải lớn hơn 1.000đ", [
+            { text: "OK" }
+        ], { cancelable: true })
+    }
+
     const AlertWithdrawMoneyFailed = () => {
         Alert.alert("Thông báo", "Xảy ra lỗi khi rút tiền, vui lòng thử lại", [
             {text: "OK", onPress: () => {}}
@@ -61,6 +68,10 @@ export default function WithdrawMoney(props) {
     {
         if (money > Number(props.route.params.money)) {
             AlertNotEnoughMoney();
+            return;
+        }
+        if (money < 1000) {
+            AlertInvalidMoney();
             return;
         }
         //console.log(username, destination, money)
@@ -82,6 +93,7 @@ export default function WithdrawMoney(props) {
         .then(async (respond) => {
             //console.log(respond.json());
             setShowSuccessModal(true);
+            Notify();
         })
         .catch((err) => AlertWithdrawMoneyFailed())
     }
@@ -123,7 +135,7 @@ export default function WithdrawMoney(props) {
                     //console.log("date", replaceDate(new Date().toString().replace(" GMT+0700", "")))
                     setDate(replaceDate(new Date().toString()));
                     onSubmitWithdrawMoney(props.route.params.username, moneyDestination, moneyToWithdraw, date);
-                    Notify();
+                    //Notify();
                 }} />
                 <View style={{ paddingHorizontal: 30 }} />
                 <Button title="HỦY" color="#E95552" onPress={() => {

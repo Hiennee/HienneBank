@@ -69,6 +69,12 @@ export default function TransferMoney(props) {
         ], {cancelable: true})
     }
 
+    const AlertInvalidMoney = () => {
+        Alert.alert("Thông báo", "Số tiền phải lớn hơn 1.000đ", [
+            { text: "OK" }
+        ], { cancelable: true })
+    }
+
     const AlertTransferMoneyFailed = () => {
         Alert.alert("Thông báo", "Xảy ra lỗi khi chuyển tiền, vui lòng thử lại", [
             { text: "OK", onPress: () => {} }
@@ -77,6 +83,10 @@ export default function TransferMoney(props) {
 
     function onSubmitTransferMoney(username, destination, money, date, description)
     {
+        if (money < 1000) {
+            AlertInvalidMoney();
+            return;
+        }
         var destination = destination.trim().toUpperCase();
         //console.log(destination);
         var username = username.trim().toUpperCase();
@@ -120,6 +130,7 @@ export default function TransferMoney(props) {
             }
             else {
                 setShowSuccessModal(true);
+                Notify();
             }
         })
         .catch((err) => AlertTransferMoneyFailed())
@@ -152,7 +163,6 @@ export default function TransferMoney(props) {
                 <Button title="CHUYỂN" disabled={moneyToTransfer == "" || moneyDestination == ""} onPress={() => {
                     setDate(replaceDate(new Date().toString()));
                     onSubmitTransferMoney(props.route.params.username, moneyDestination, moneyToTransfer, date, description);
-                    Notify();
                 }}/>
                 <View style={{paddingHorizontal: 30}} />
                 <Button title="HỦY" color="#E95552" onPress={() => {

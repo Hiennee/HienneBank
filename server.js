@@ -379,14 +379,14 @@ app.get("/history/:username", async (req, res) =>
 app.post("/money/add", async (req, res) =>
 {
     var { username, source, destination, destination_banknum, money, date } = req.body;
-    
-    if (await userCol.findOne({ username: username }) == null) {
+    var user = await userCol.findOne({ username: username });
+    if (user == null) {
         res.status(345).send({ message: "Invalid Username" });
         console.log("Invalid Username");
         return
     }
 
-    userCol.updateOne({ username: username }, {
+    userCol.updateOne(user, {
         $inc: { money: + money }
     })
     .then((result) => {
@@ -395,7 +395,8 @@ app.post("/money/add", async (req, res) =>
     })
     .catch((err) => console.log(err));
 
-    var remainMoney = (await userCol.findOne({ username: username })).money;
+    var remainMoney = user.money + money;
+
     console.log("(From /money/add) - Remain:", remainMoney)
     const ADD_MONEY_DESCRIPTION = `${username} NAP TIEN (+${money} đ) TU ${source}`;
 
@@ -441,14 +442,15 @@ app.post("/money/add", async (req, res) =>
 app.post("/money/withdraw", async (req, res) =>
 {
     var { username, source, source_banknum, destination, money, date } = req.body;
+    var user = await userCol.findOne({ username: username });
 
-    if (await userCol.findOne({ username: username }) == null) {
+    if (user == null) {
         res.status(345).send({ message: "Invalid Username" });
         console.log("Invalid Username");
         return
     }
 
-    userCol.updateOne({ username: username }, {
+    userCol.updateOne(user, {
         $inc: { money: - money }
     })
     .then((result) => {
@@ -457,7 +459,8 @@ app.post("/money/withdraw", async (req, res) =>
     })
     .catch((err) => console.log(err));
 
-    var remainMoney = (await userCol.findOne({ username: username })).money;
+    var remainMoney = user.money - money;
+
     const WITHDRAW_MONEY_DESCRIPTION = `${username} RUT TIEN (-${money} đ) VE ${destination}`;
     moneyHistoryCol.insertOne({
         action: "WITHDRAW",
@@ -500,19 +503,21 @@ app.post("/money/withdraw", async (req, res) =>
 app.post("/money/transfer", async (req, res) =>
 {
     var { username, source_banknum, destination, destination_banknum, money, date, description } = req.body;
+    var userTransfer = await userCol.findOne({ username: username });
+    var userReceive = await userCol.findOne({ username: destination });
 
-    if (await userCol.findOne({ username: username }) == null) {
+    if (userTransfer == null) {
         res.status(345).send({ message: "Invalid Username" });
         console.log("Invalid Username");
         return
     }
-    if (await userCol.findOne({ username: destination }) == null) {
+    if (destination == null) {
         res.status(346).send({ message: "Invalid Destination" });
         console.log("Invalid Destination");
         return
     }
 
-    userCol.updateOne({ username: username }, {
+    userCol.updateOne(userTransfer, {
         $inc: { money: - money }
     })
     .then((result) => {
@@ -521,7 +526,7 @@ app.post("/money/transfer", async (req, res) =>
     })
     .catch((err) => console.log(err));
 
-    var remainMoneyTransferer = (await userCol.findOne({ username: username })).money;
+    var remainMoneyTransferer = userTransfer.money - money;
     console.log("(FROM /money/transfer) - Remain transferer:", remainMoneyTransferer);
 
     userCol.updateOne({ username: destination }, {
@@ -533,7 +538,7 @@ app.post("/money/transfer", async (req, res) =>
     })
     .catch((err) => console.log(err));
 
-    var remainMoneyReceiver = (await userCol.findOne({ username: destination })).money;
+    var remainMoneyReceiver = userReceive.money + money;
     console.log("(FROM /money/transfer) - Remain receiver:", remainMoneyReceiver);
 
     moneyHistoryCol.insertOne({
