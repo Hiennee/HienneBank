@@ -1,34 +1,37 @@
 {
-  "name": "FinalProject",
-  "slug": "FinalProject",
-  "version": "1.0.0",
-  "orientation": "portrait",
-  "icon": "./assets/icon.png",
-  "userInterfaceStyle": "automatic",
-  "splash": {
-    "image": "./assets/splash.png",
-    "resizeMode": "contain",
-    "backgroundColor": "#ffffff"
-  },
-  "assetBundlePatterns": [
-    "**/*"
-  ],
-  "ios": {
-    "supportsTablet": true
-  },
-  "android": {
-    "adaptiveIcon": {
-      "foregroundImage": "./assets/adaptive-icon.png",
+  "expo": {
+    "name": "FinalProject",
+    "slug": "FinalProject",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
       "backgroundColor": "#ffffff"
-    }
-  },
-  "web": {
-    "favicon": "./assets/favicon.png"
-  },
-  "sdkVersion": "51.0.0",
-  "extra": {
-    "eas": {
-      "projectId": "cadaf03d-d8bd-4c8e-b4e0-8d7506103a5a"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.suphuma.FinalProject"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "sdkVersion": "51.0.0",
+    "extra": {
+      "eas": {
+        "projectId": "cadaf03d-d8bd-4c8e-b4e0-8d7506103a5a"
+      }
     }
   }
 }
