@@ -30,10 +30,5 @@
     "eas": {
       "projectId": "cadaf03d-d8bd-4c8e-b4e0-8d7506103a5a"
     }
-  },
-  "expo": {
-    "android": {
-      "package": "com.suphuma.FinalProject"
-    }
   }
 }
