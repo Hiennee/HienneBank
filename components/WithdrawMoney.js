@@ -131,7 +131,7 @@ export default function WithdrawMoney(props) {
                 </View>
             </View>
             <View style={{ flexDirection: "row", marginTop: 50, alignSelf: "center" }}>
-                <Button title="NẠP" disabled={moneyToWithdraw == "" || moneyDestination == ""} onPress={() => {
+                <Button title="RÚT" disabled={moneyToWithdraw == "" || moneyDestination == ""} onPress={() => {
                     //console.log("date", replaceDate(new Date().toString().replace(" GMT+0700", "")))
                     setDate(replaceDate(new Date().toString()));
                     onSubmitWithdrawMoney(props.route.params.username, moneyDestination, moneyToWithdraw, date);

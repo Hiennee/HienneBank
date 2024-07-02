@@ -1,2 +1,2 @@
-export const IPAddr = "https://hiennebank.onrender.com/"
-//export const IPAddr = "http://192.168.1.12:8080/"
+//export const IPAddr = "https://hiennebank.onrender.com/"
+export const IPAddr = "http://192.168.1.8:8080/"

@@ -79,7 +79,8 @@ app.post("/register", async (req, res) => {
 
 app.post("/login", async (req, res) => {
     var { username, password } = req.body;
-    var result = await userCol.findOne({ username: username, password: password })
+    var result = await userCol.findOne({ username: username, password: password });
+    
     if (result == null) {
         res.status(345).send({ message: "Invalid login attempt" });
         console.log("Invalid login attempt");
@@ -122,15 +123,17 @@ app.get("/logout/:username", async (req, res) => {
 
 app.put("/update/users/username/:username/", async (req, res) => 
 {
-    console.log(req.body)
+    //console.log(req.body)
     var { newUserName } = req.body;
-    if (await userCol.findOne({ username: req.params.username.toUpperCase() }) == null) {
+    var user = await userCol.findOne({ username: req.params.username.toUpperCase() });
+
+    if (user == null) {
         res.status(345).send({ message: "Có gì đó sai sai" })
         console.log("Có gì đó sai sai");
         return;
     }
     if (await userCol.findOne({ username: newUserName }) == null) {
-        var result = await userCol.updateOne({ username: req.params.username.toUpperCase() }, {
+        var result = await userCol.updateOne(user, {
             $set: { username: newUserName }
         })
         res.status(234).send({ message: `Updated user ${req.params.username.toUpperCase()} to ${newUserName}` })
@@ -160,12 +163,14 @@ app.put("/update/users/username/:username/", async (req, res) =>
 app.put("/update/users/password/:username", async (req, res) => 
 {
     var { newPassword } = req.body;
-    if (await userCol.findOne({ username: req.params.username.toUpperCase() }) == null) {
+    var user = await userCol.findOne({ username: req.params.username.toUpperCase() });
+
+    if (user == null) {
         res.status(345).send({ message: "Có gì đó sai sai" });
         console.log("Có gì đó sai sai");
         return;
     }
-    await userCol.updateOne({ username: req.params.username.toUpperCase() }, {
+    await userCol.updateOne(user, {
         $set: { password: newPassword }
     })
     res.status(234).send({message: `Updated user ${req.params.username.toUpperCase()}'s password to ${newPassword}`})
@@ -186,14 +191,15 @@ app.put("/update/users/password/:username", async (req, res) =>
 app.put("/update/users/banknum/:username/", async (req, res) => 
 {
     var { newBanknum } = req.body;
+    var user = await userCol.findOne({ username: req.params.username.toUpperCase() });
 
-    if (await userCol.findOne({ username: req.params.username.toUpperCase() }) == null) {
+    if (user == null) {
         res.status(345).send({ message: "Có gì đó sai sai" });
         console.log("Có gì đó sai sai");
         return;
     }
     if (await userCol.findOne({ banknum: newBanknum }) == null) {
-        await userCol.updateOne({ username: req.params.username.toUpperCase() }, {
+        await userCol.updateOne(user, {
             $set: { banknum: newBanknum }
         })
         res.status(234).send({ message: `Updated ${req.params.username.toUpperCase()}'s bank number to ${newBanknum} successfully` })
@@ -222,14 +228,15 @@ app.put("/update/users/banknum/:username/", async (req, res) =>
 app.put("/update/users/phonenum/:username/", async (req, res) => 
 {
     var { newPhonenum } = req.body;
+    var user = userCol.findOne({ username: req.params.username.toUpperCase() });
 
-    if (await userCol.findOne({ username: req.params.username.toUpperCase() }) == null) {
+    if (user == null) {
         res.status(345).send({ message: "Có gì đó sai sai" });
         console.log("Có gì đó sai sai");
         return;
     }
     if (await userCol.findOne({ phonenum: newPhonenum }) == null) {
-        await userCol.updateOne({ username: req.params.username.toUpperCase() }, {
+        await userCol.updateOne(user, {
             $set: { phonenum: newPhonenum }
         })
         res.status(234).send({ message: `Updated ${req.params.username.toUpperCase()}'s phone number to ${newPhonenum} successfully` })
@@ -259,13 +266,14 @@ app.put("/update/users/phonenum/:username/", async (req, res) =>
 app.put("/update/users/avatar/:username/", async (req, res) => 
 {
     var { avatarUri } = req.body;
-    console.log("avatar:", avatarUri);
-    if (await userCol.findOne({ username: req.params.username.toUpperCase() }) == null) {
+    var user = await userCol.findOne({ username: req.params.username.toUpperCase() });
+    //console.log("avatar:", avatarUri);
+    if (user == null) {
         res.status(345).send({ message: "Có gì đó sai sai" });
         console.log("Có gì đó sai sai");
         return;
     }
-    userCol.updateOne({ username: req.params.username.toUpperCase() }, {
+    userCol.updateOne(user, {
         $set: { avatarUri: avatarUri }
     })
     .then(() => {
@@ -295,12 +303,13 @@ app.put("/update/users/avatar/:username/", async (req, res) =>
 app.put("/update/users/theme/:username", async (req, res) => 
 {
     var { theme } = req.body;
-    if (await userCol.findOne({ username: req.params.username.toUpperCase() }) == null) {
+    var user = await userCol.findOne({ username: req.params.username.toUpperCase() });
+    if (user == null) {
         res.status(345).send({ message: "Có gì đó sai sai" });
         console.log("Có gì đó sai sai");
         return;
     }
-    await userCol.updateOne({ username: req.params.username.toUpperCase() }, {
+    await userCol.updateOne(user, {
         $set: { theme: theme }
     })
     res.status(234).send({message: `Updated user ${req.params.username.toUpperCase()}'s theme to ${theme}`})

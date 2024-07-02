@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { View, Text, Alert, Modal } from 'react-native'
 import { Input, Button, Card } from '@rneui/themed'
 import { IPAddr } from '../shared/IP';
-import { AntDesign, MaterialIcons, FontAwesome6 } from '@expo/vector-icons';
+import { AntDesign, MaterialIcons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import replaceDate from '../shared/DateStringReplacer';
@@ -13,11 +13,11 @@ import * as Notifications from "expo-notifications"
 export default function TransferMoney(props) {
     const { navigate } = props.navigation
 
-    var [moneyToTransfer, setMoneyToTransfer] = useState(0.0);
-    var [moneyDestination, setMoneyDestination] = useState("");
-    var [banknumDestination, setBanknumDestination] = useState("");
-    var [description, setDescription] = useState("");
-    var [showSuccessModal, setShowSuccessModal] = useState(false);
+    var [ moneyToTransfer, setMoneyToTransfer ] = useState(0.0);
+    var [ moneyDestination, setMoneyDestination ] = useState("");
+    var [ banknumDestination, setBanknumDestination ] = useState("");
+    var [ description, setDescription ] = useState("");
+    var [ showSuccessModal, setShowSuccessModal ] = useState(false);
 
     //var [date, setDate] = useState("");
     var date = new Date().toString();
@@ -48,6 +48,12 @@ export default function TransferMoney(props) {
                 trigger: null,
             })
         }
+    }
+    const AlertError = () =>
+    {
+        Alert.alert("THÔNG BÁO", "Có lỗi không xác định khi chuyển tiền, vui lòng thử lại", [
+            { text: "OK", onPress: () => {} }
+        ], { cancelable: true, onDismiss: () => {} })
     }
 
     const AlertNotEnoughMoney = () => {
@@ -81,7 +87,7 @@ export default function TransferMoney(props) {
         ], {cancelable: true})
     }
 
-    function onSubmitTransferMoney(username, destination, money, date, description)
+    async function onSubmitTransferMoney(username, destination, money, date, description)
     {
         if (money < 1000) {
             AlertInvalidMoney();
@@ -99,7 +105,18 @@ export default function TransferMoney(props) {
             return;
         }
         //console.log(username, destination, money)
-        fetch(IPAddr + "money/transfer", {
+
+        var getDestination = await fetch(IPAddr + `banknum/${destination}`);
+        if (getDestination.status == 345) {
+            AlertInvalidDestination();
+            return;
+        }
+
+        getDestination.json()
+        .then((data) => setBanknumDestination(data.banknum))
+        .catch((err) => console.log(err));
+
+        var transferMoneyResult = await fetch(IPAddr + "money/transfer", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -115,25 +132,28 @@ export default function TransferMoney(props) {
                 description: description,
             })
         })
-        .then(async (respond) => {
-            fetch(IPAddr + `banknum/${destination}`)
-            .then((respond) => respond.json())
-            .then((data) => setBanknumDestination(data.banknum))
-            .catch((err) => console.log(err))
-            //console.log(respond.json());
-            //console.log(respond.status)
+        .then((respond) => {
             if (respond.status == 345) {
-                throw Error();
+                AlertError();
+                return;
             }
             else if (respond.status == 346) {
                 AlertInvalidDestination();
+                return;
             }
-            else {
+            else if (respond.status == 234) {
                 setShowSuccessModal(true);
                 Notify();
             }
+            else {
+                AlertTransferMoneyFailed();
+            }
         })
-        .catch((err) => AlertTransferMoneyFailed())
+        .catch((err) => console.log(err));
+        
+            //console.log(respond.json());
+            //console.log(respond.status)
+        //.catch((err) => AlertTransferMoneyFailed())
     }
 
     return (
@@ -160,7 +180,7 @@ export default function TransferMoney(props) {
             <Input placeholder='Nhập nội dung chuyển khoản...' onChangeText={(description) => setDescription(description) } 
                 leftIcon={<MaterialIcons name="abc" size={24} />}/>
             <View style={{flexDirection: "row", marginTop: 30}}>
-                <Button title="CHUYỂN" disabled={moneyToTransfer == "" || moneyDestination == ""} onPress={() => {
+                <Button title="CHUYỂN" disabled={moneyToTransfer == "" || moneyDestination == "" || description == ""} onPress={() => {
                     setDate(replaceDate(new Date().toString()));
                     onSubmitTransferMoney(props.route.params.username, moneyDestination, moneyToTransfer, date, description);
                 }}/>
